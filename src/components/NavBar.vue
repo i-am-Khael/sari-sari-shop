@@ -1,7 +1,8 @@
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { utilities } from '@/composables/utilities';
 
-
+const { totalItems } = utilities();
 </script>
 
 <template>
@@ -35,6 +36,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
             icon="fa-solid fa-cart-shopping"
             class="text-2xl transition-transform duration-200 group-hover:scale-110"
           />
+          <span v-if="totalItems > 0" class="px-2 py-0.5 absolute -top-2 -right-0.5 flex itemx-center justify-center rounded-full bg-green-400 text-slate-900" >{{ totalItems }}</span>
         </RouterLink>
         <span class="h-7 w-px mx-1 bg-slate-50/20" ></span>
         <RouterLink

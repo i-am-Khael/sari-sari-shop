@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCategoriesStore } from '@/stores/categories';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import Category from './Category.vue';
 
 const store = useCategoriesStore();
 const { categories } = storeToRefs(store);
@@ -28,18 +28,7 @@ onMounted( async () => {
     </div>
 
     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-      <RouterLink
-        v-for="category in categories"
-        :key="category.id"
-        :to="`/category/${category.id}`"
-        class="p-5 group text-center rounded border-slate-300 bg-slate-200 transition-all duration-200 hover:-translate-y-1.5 hover:bg-slate-300 hover:shadow-lg"
-      >
-        <div class="w-16 h-16 mx-auto flex items-center justify-center rounded-2xl text-5xl transition duration-200 group-hover:scale-110">
-          <FontAwesomeIcon :icon="category.icon" :style="{ color: category.color }"/>
-        </div>
-        <h3 class="mt-4 fon-bold text-slate-900">{{ category.category }}</h3>
-        <p class="mt-1 text-xs leading-5 text-slate-500">{{ category.description }}</p>
-      </RouterLink>
+      <Category :categories="categories"/>
     </div>
 
   </section>
