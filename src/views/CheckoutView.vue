@@ -1,22 +1,44 @@
 <script setup>
-import PayPalButton from '@/components/PayPalButton.vue';
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { utilities } from '@/composables/utilities';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import PayPalButton from '@/components/PayPalButton.vue';
+
 const { cart, clearCart, totalItems, totalPrice, formatMoney } = utilities();
+
+const router = useRouter();
+const route = useRoute();
+
+const subTotal = computed(() => {
+  return cart.value.reduce((total, item) => {
+    return total + Number(item.price) * Number(item.quantity);
+  }, 0);
+});
+
+const shippingFee = computed(() => {
+  return subTotal.value >= 1000 ? 0 : 100;
+});
+
+const total = computed(() => {
+  return subTotal.value + shippingFee.value;
+});
 
 const handlePaymentSuccess = (result) => {
   clearCart();
-  console.log('SUCCESSSS', result);
+  router.push({
+    name: 'receipt',
+    state: { receipt: result }
+  });
 }
 
 const handlePaymentError = (error) => {
-  console.log('ERRORRRR', error);
 }
 
 </script>
 
 <template>
-  <section class="min-h-screen p-10 bg-slate-50">
+  <section class="min-h-screen px-5 sm:px-10 py-10 bg-slate-50">
     <div class="w-full">
 
       <div class="mb-8">
@@ -77,7 +99,7 @@ const handlePaymentError = (error) => {
 
             <div class="flex items-center justify-between">
               <dt class="text-slate-600">Shipping</dt>
-              <dd class="font-medium text-emerald-600">Free</dd>
+              <dd class="font-medium text-emerald-600">{{ shippingFee === 0 ? 'Free' : `$${shippingFee}`  }}</dd>
             </div>
           </dl>
 
@@ -85,16 +107,15 @@ const handlePaymentError = (error) => {
 
           <div class="mb-3 flex items-center justify-between">
             <span class="text-base font-semibold text-slate-900">Total</span>
-            <span class="text-2xl font-bold text-slate-900">${{ formatMoney(totalPrice) }}</span>
+            <span class="text-2xl font-bold text-slate-900">${{ formatMoney(total) }}</span>
           </div>
 
           <PayPalButton
             v-if="cart.length > 0"
             :items="cart"
-            :totalItems="totalItems"
-            :totalPrice="totalPrice"
+            :shippingFee="shippingFee"
             @success="handlePaymentSuccess"
-            @error="handlePaymentError"
+            @errors="handlePaymentError"
           />
 
           <button

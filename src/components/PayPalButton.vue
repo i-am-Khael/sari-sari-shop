@@ -6,19 +6,13 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  totalItems: {
+  shippingFee: {
     type: Number,
     required: true,
-    default: 0
-  },
-  totalPrice: {
-    type: Number,
-    required: true,
-    default: 0
   }
 });
 
-const emit = defineEmits(['success', 'error']);
+const emit = defineEmits(['success', 'errors']);
 
 const uri = import.meta.env.VITE_API_URI;
 const headers = {
@@ -26,12 +20,13 @@ const headers = {
   'X-API-KEY': import.meta.env.VITE_API_KEY
 }
 const container = ref(null);
-const errorMessage = ref('');
+const errors = {};
 
 onMounted(() => {
 
   if (!window.paypal) {
-    errorMessage.value = 'Paypal could not be loaded.';
+    errors.paypal = 'Paypal could not be loaded.';
+    emit('errors', errors);
     return;
   }
 
@@ -40,14 +35,12 @@ onMounted(() => {
     async createOrder() {
 
       const orders = {
-        userId: 1,
+        user_id: 1,
         items: props.items.map((item) => ({
           id: item.id,
           price: item.price,
           quantity: item.quantity,
-        })),
-        totalItems: props.totalItems,
-        totalPrice: props.totalPrice
+        }))
       }
 
       const response = await fetch(`${uri}/checkout/create-order`, {
@@ -58,9 +51,12 @@ onMounted(() => {
 
       const results = await response.json();
 
-      if (results.status !== 200) emit('error', results.error);
+      if (results.status !== 200) {
+        emit('errors', results.errors);
+        return;
+      }
 
-      return results.data;
+      return results.data.id;
 
     },
 
@@ -68,7 +64,7 @@ onMounted(() => {
 
       try {
 
-        const response = await fetch(`${uri}/checkout/get-order`, {
+        const response = await fetch(`${uri}/checkout/take-order`, {
           method: 'POST',
           headers: headers,
           body: JSON.stringify({
@@ -78,38 +74,35 @@ onMounted(() => {
 
         const results = await response.json();
 
-        if (results.status !== 200) emit('error', results.errors);
+        if (results.status !== 200) {
+          emit('errors', results.errors);
+          return;
+        }
 
         emit('success', results.data);
 
-      } catch(error) {
+      } catch (error) {
 
-        errorMessage.value = error.message;
-        emit('error', error);
+        emit('errors', error);
 
       }
 
     },
 
     onCancel() {
-      errorMessage.value = 'Payment was cancelled!';
     },
 
     onError(error) {
-      console.log(`Error: ${error}`);
-      errorMessage.value = 'PayPal checkout failed. Please try again.';
-      emit('error', error);
+      emit('errors', error);
     }
   })
     .render(container.value)
     .catch((error) => {
-      console.log(`Error: ${error}`);
-      errorMessage.value = 'Could not display PayPal checkout.';
+      emit('errors', error);
     })
 });
 </script>
 
 <template>
-	<div ref="container">
-	</div>
+	<div ref="container"></div>
 </template>

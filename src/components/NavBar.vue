@@ -6,7 +6,7 @@ const { totalItems } = utilities();
 </script>
 
 <template>
-  <header class="w-full bg-linear-to-r from-blue-950 to-blue-700 shadow-lg shadow-slate-950/30">
+  <header class="w-full bg-linear-to-r from-blue-950 to-blue-700 shadow-lg shadow-slate-950/30 print:hidden">
     <nav class="max-w-[2400px] mx-auto px-5 py-4 flex items-center justify-between">
 
       <RouterLink
