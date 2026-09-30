@@ -9,7 +9,8 @@ const {
   setQuantity,
   increase,
   decrease,
-  addToCart
+  addToCart,
+  removeQuantity
 } = utilities();
 
 const store = useProductsStore();
@@ -27,6 +28,7 @@ const handleAddToCart = (product) => {
   if (product.stock <= 0) return;
 
   addToCart(product, quantity);
+  removeQuantity(product.id);
 }
 </script>
 

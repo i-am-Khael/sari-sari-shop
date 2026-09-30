@@ -75,12 +75,22 @@ const addToCart = (product, quantity = 1) => {
   }
 }
 
+const removeQuantity = (productId) => {
+  delete quantities[productId];
+}
+
 const removeFromCart = (productId) => {
   cart.value = cart.value.filter(item => item.id !== productId);
+  removeQuantity(productId);
 }
 
 const clearCart = () => {
   cart.value = [];
+
+  Object.keys(quantities).forEach((productId) => {
+    delete quantities[productId];
+  });
+
 }
 
 const totalItems = computed(() => {
@@ -155,6 +165,7 @@ export const utilities = () => {
     totalItems,
     totalPrice,
     addToCart,
+    removeQuantity,
     removeFromCart,
     clearCart,
     formatMoney

@@ -1,6 +1,11 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-const receipt = history.state.receipt;
+
+const router = useRouter();
+const receipt = history.state.receipt ?? JSON.parse(localStorage.getItem('receipt'));
+
+if (receipt === undefined || receipt === null) router.back();
 
 const printReceipt = () => {
   window.print();
@@ -34,17 +39,17 @@ const printReceipt = () => {
 
           <div class="mt-6 text-slate-900">
             <ul>
-              <li class="">
+              <li>
                 <span class="font-semibold">Order Id: </span>
                 <span>{{ receipt.order_id }}</span>
               </li>
-              <li class="">
+              <li>
                 <span class="font-semibold">Reference Id: </span>
                 <span>{{ receipt.reference_id }}</span>
               </li>
-              <li class="">
+              <li>
                 <span class="font-semibold">Date: </span>
-                <span></span>
+                <span>{{ receipt.date }}</span>
               </li>
             </ul>
 
@@ -55,8 +60,8 @@ const printReceipt = () => {
                   v-for="item in receipt.items"
                   class="mb-2 flex items-center justify-between"
                 >
-                  <span>{{ item.product }} {{ `x${item.quantity}` }} </span>
-                  <span class="font-medium">${{ Number(item.price) * Number(item.quantity) }}</span>
+                  <span>{{ item.name }} {{ `x${item.quantity}` }} </span>
+                  <span class="font-medium">${{ Number(item.unit_amount.value) * Number(item.quantity) }}</span>
                 </li>
               </ul>
             </div>
@@ -65,15 +70,15 @@ const printReceipt = () => {
               <ul>
                 <li class="flex items-center justify-between">
                   <span class="font-semibold">Sub-Total: </span>
-                  <span class="font-medium">{{ receipt.item_total }}</span>
+                  <span class="font-medium">${{ receipt.item_total }}</span>
                 </li>
                 <li class="flex items-center justify-between">
                   <span class="font-semibold">Shipping Fee: </span>
-                  <span class="font-medium">{{ receipt.shipping_fee }}</span>
+                  <span class="font-medium">{{ receipt.shipping_fee === '0.00' ? 'Free' : `$${receipt.shipping_fee}` }}</span>
                 </li>
                 <li class="mt-2 flex items-center justify-between">
                   <span class="text-2xl font-semibold">Total: </span>
-                  <span class="text-2xl font-medium">{{ receipt.total_amount }}</span>
+                  <span class="text-2xl font-medium">${{ receipt.total_amount }}</span>
                 </li>
               </ul>
             </div>
@@ -82,12 +87,15 @@ const printReceipt = () => {
         </div>
 
 
-        <button
-          @click="printReceipt"
-          class="print:hidden mt-6 px-4 py-2 rounded bg-blue-500 hover:bg-blue-600"
-        >
-          Print Receipt
-        </button>
+        <div class="mt-6 flex flex-col gap-4">
+          <p class="text-md text-slate-500 print:hidden">Please keep the receipt for future needs.</p>
+          <button
+            @click="printReceipt"
+            class="print:hidden px-4 py-2 text-slate-300 rounded bg-blue-500 hover:bg-blue-600 cursor-pointer"
+          >
+            Print Receipt
+          </button>
+        </div>
 
       </div>
 

@@ -79,6 +79,7 @@ onMounted(() => {
           return;
         }
 
+        localStorage.setItem('receipt', JSON.stringify(results.data));
         emit('success', results.data);
 
       } catch (error) {

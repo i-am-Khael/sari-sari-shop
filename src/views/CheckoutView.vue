@@ -1,14 +1,12 @@
 <script setup>
 import { computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { utilities } from '@/composables/utilities';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import PayPalButton from '@/components/PayPalButton.vue';
 
-const { cart, clearCart, totalItems, totalPrice, formatMoney } = utilities();
-
 const router = useRouter();
-const route = useRoute();
+const { cart, clearCart, totalItems, totalPrice, formatMoney } = utilities();
 
 const subTotal = computed(() => {
   return cart.value.reduce((total, item) => {
