@@ -17,7 +17,7 @@ export const useProductsStore = defineStore('useProductsStore', {
 
     async featuredProducts() {
 
-      const response = await fetch(`${this.apiURI}/products/all`, {
+      const response = await fetch(`${this.apiURI}/products/featured`, {
         method: 'GET',
         headers: this.headers
       });

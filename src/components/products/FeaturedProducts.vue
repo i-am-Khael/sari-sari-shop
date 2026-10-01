@@ -27,9 +27,11 @@ onMounted(async () => {
       </p>
     </div>
 
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-      <Product :products="products" />
+    <div v-if="products.length > 0" class="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      <Product :products="products"/>
     </div>
+
+    <p v-else class="p-10 text-center text-slate-600">No Featured Products at the moment..</p>
 
   </section>
 </template>
