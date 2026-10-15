@@ -27,23 +27,38 @@ const { totalItems } = utilities();
         </div>
       </RouterLink>
 
-      <div class="flex items-center gap-2">
+      <div class="font-semibold text-blue-100 inline-flex items-center justify-center gap-4">
+        <RouterLink
+          to="/products"
+          class=""
+        >
+          Products
+        </RouterLink>
+        <RouterLink to="/categories">Categories</RouterLink>
         <RouterLink
           to="/checkout"
-          class="h-11 w-11 group relative flex items-center justify-center rounded text-blue-100 transition-all duration-200 bg-slate/20 hover:text-slate"
+          class="relative"
         >
           <FontAwesomeIcon
-            icon="fa-solid fa-cart-shopping"
-            class="text-2xl transition-transform duration-200 group-hover:scale-110"
+            class="text-2xl"
+            icon="fa-solid fa-shopping-cart"
           />
-          <span v-if="totalItems > 0" class="px-2 py-0.5 absolute -top-2 -right-0.5 flex itemx-center justify-center rounded-full bg-green-400 text-slate-900" >{{ totalItems }}</span>
+          <div
+            v-if="totalItems !== 0"
+            class="w-5 h-5 p-4 text-blue-100 flex items-center justify-center rounded-full absolute -top-5 left-3 bg-blue-950/80">
+              <span class="" >{{ totalItems }}</span>
+          </div>
         </RouterLink>
-        <span class="h-7 w-px mx-1 bg-slate-50/20" ></span>
+        <span class="h-8 border-l border-blue-100"></span>
         <RouterLink
           to="/login"
-          class="px-4 py-2.5 uppercase text-sm font-semibold text-slate-50 rounded bg-slate-50/10 ring-1 ring-slate-50/20 transition-all duration-200 hover:bg-slate-50/20 hover:ring-slate-50/30 active:scale-95"
-        >
-          Login
+          class="px-4 py-2 font-semibold tracking-wide text-sm rounded bg-blue-100/20 backdrop-blur-3xl hover:bg-blue-100/30 hover:outline hover:outline-blue-100/40">
+            Login
+        </RouterLink>
+        <RouterLink
+          to="/register"
+          class="px-4 py-2 font-semibold tracking-wide text-sm rounded bg-blue-100/20 backdrop-blur-3xl hover:bg-blue-100/30 hover:outline hover:outline-blue-100/40">
+            Register
         </RouterLink>
       </div>
 

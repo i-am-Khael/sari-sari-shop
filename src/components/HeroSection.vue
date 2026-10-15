@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 </script>
 
 <template>
-  <section class="w-full relative overflow-hidden bg-slate-50">
+  <section class="w-full h-auto mt-21 relative overflow-hidden bg-slate-50">
     <div class="h-96 w-96 absolute -right-32 -top-32 rounded-full bg-blue-300 blur-3xl"></div>
     <div class="h-96 w-96 absolute -bottom-40 -left-32 rounded-full bg-blue-300 blur-3xl"></div>
 
@@ -27,7 +27,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
         <div class="mt-8 flex flex-col gap-8 sm:flex-row">
           <RouterLink
-            to="/shop"
+            to="/products"
             class="px-6 py-3.5 font-semibold text-slate-50 inline-flex items-center justify-center gap-2 rounded bg-blue-700 shadow-lg shadow-blue-700/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-800 hover:shadow-xl hover:shadow-blue-700/25 active:translate-y-0"
           >
             <FontAwesomeIcon icon="fa-solid fa-bag-shopping"/>

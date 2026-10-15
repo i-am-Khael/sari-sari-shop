@@ -51,7 +51,7 @@ const handleAddToCart = (product) => {
 
       <div class="mt-2 flex flex-col justify-center">
         <p class="font-semibold text-slate-900">{{ prod.product }}</p>
-        <p class="text-sm text-slate-600">{{ prod.description }}</p>
+        <!-- <p class="text-sm text-slate-600">{{ prod.description }}</p> -->
       </div>
 
       <div class="w-full mt-2 pt-2 inline-flex items-center justify-between border-t border-slate-400">

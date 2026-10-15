@@ -11,9 +11,23 @@ export const useProductsStore = defineStore('useProductsStore', {
       'X-API-KEY': import.meta.env.VITE_API_KEY
     },
     products: [],
+    featured: [],
   }),
 
   actions: {
+
+    async getAll() {
+
+      const response = await fetch(`${this.apiURI}/products/all`, {
+        method: 'GET',
+        headers: this.headers
+      });
+
+      const results = await response.json();
+
+      if (results.status === 200) this.products = results.data;
+
+    },
 
     async featuredProducts() {
 
@@ -24,7 +38,7 @@ export const useProductsStore = defineStore('useProductsStore', {
 
       const results = await response.json();
 
-      if (results.status === 200) this.products = results.data;
+      if (results.status === 200) this.featured = results.data;
 
     }
 

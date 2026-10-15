@@ -5,7 +5,7 @@ import FeaturedProducts from '@/components/products/FeaturedProducts.vue';
 </script>
 
 <template>
-   <HeroSection/>
-   <PopularCategories/>
-   <FeaturedProducts/>
+  <HeroSection/>
+  <FeaturedProducts/>
+  <PopularCategories/>
 </template>
