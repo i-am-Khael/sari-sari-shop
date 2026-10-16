@@ -1,14 +1,25 @@
 <script setup>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/stores/auth';
 import { utilities } from '@/composables/utilities';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
+const router = useRouter();
+const auth = useAuthStore();
+const { isAuth } = storeToRefs(auth);
 const { totalItems } = utilities();
+
+const logout = async () => {
+  const result = await auth.logout();
+  if (result.status === 200) router.push({ name: 'index' });
+}
+
 </script>
 
 <template>
   <header class="w-full bg-linear-to-r from-blue-950 to-blue-700 shadow-lg shadow-slate-950/30 print:hidden">
     <nav class="max-w-[2400px] mx-auto px-5 py-4 flex items-center justify-between">
-
       <RouterLink
         to="/"
         class="group flex items-center gap-3 text-slate-100"
@@ -27,40 +38,46 @@ const { totalItems } = utilities();
         </div>
       </RouterLink>
 
-      <div class="font-semibold text-blue-100 inline-flex items-center justify-center gap-4">
-        <RouterLink
-          to="/products"
-          class=""
-        >
-          Products
-        </RouterLink>
-        <RouterLink to="/categories">Categories</RouterLink>
-        <RouterLink
-          to="/checkout"
-          class="relative"
-        >
-          <FontAwesomeIcon
-            class="text-2xl"
-            icon="fa-solid fa-shopping-cart"
-          />
-          <div
-            v-if="totalItems !== 0"
-            class="w-5 h-5 p-4 text-blue-100 flex items-center justify-center rounded-full absolute -top-5 left-3 bg-blue-950/80">
+      <ul class="font-semibold text-blue-100 inline-flex items-center justify-center gap-4">
+
+        <li>
+          <RouterLink to="/products">Products</RouterLink>
+        </li>
+
+        <li>
+          <RouterLink to="/categories">Categories</RouterLink>
+        </li>
+
+        <li class="relative">
+          <RouterLink to="/user/checkout">
+            <FontAwesomeIcon
+              class="text-2xl"
+              icon="fa-solid fa-shopping-cart"
+            />
+            <div
+              v-if="totalItems !== 0"
+              class="w-5 h-5 p-4 text-blue-100 flex items-center justify-center rounded-full absolute -top-5 left-3 bg-blue-950/80"
+            >
               <span class="" >{{ totalItems }}</span>
-          </div>
-        </RouterLink>
+            </div>
+          </RouterLink>
+        </li>
+
         <span class="h-8 border-l border-blue-100"></span>
-        <RouterLink
-          to="/login"
-          class="px-4 py-2 font-semibold tracking-wide text-sm rounded bg-blue-100/20 backdrop-blur-3xl hover:bg-blue-100/30 hover:outline hover:outline-blue-100/40">
-            Login
-        </RouterLink>
-        <RouterLink
-          to="/register"
-          class="px-4 py-2 font-semibold tracking-wide text-sm rounded bg-blue-100/20 backdrop-blur-3xl hover:bg-blue-100/30 hover:outline hover:outline-blue-100/40">
-            Register
-        </RouterLink>
-      </div>
+
+        <li v-if="isAuth">
+          <span class="cursor-pointer" @click="logout">Logout</span>
+        </li>
+
+        <li v-if="!isAuth" class="px-4 py-2 font-semibold tracking-wide text-sm rounded bg-blue-100/20 backdrop-blur-3xl hover:bg-blue-100/30 hover:outline hover:outline-blue-100/40">
+          <RouterLink to="/login">Login</RouterLink>
+        </li>
+
+        <li v-if="!isAuth" class="px-4 py-2 font-semibold tracking-wide text-sm rounded bg-blue-100/20 backdrop-blur-3xl hover:bg-blue-100/30 hover:outline hover:outline-blue-100/40">
+          <RouterLink to="/register">Register</RouterLink>
+        </li>
+
+      </ul>
 
     </nav>
   </header>

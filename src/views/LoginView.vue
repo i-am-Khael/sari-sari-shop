@@ -1,5 +1,34 @@
 <script setup>
-  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+const auth = useAuthStore();
+const route = useRoute();
+const router = useRouter();
+
+const { errors } = storeToRefs(auth);
+
+const username = ref('');
+const password = ref('');
+
+const login = async (e) => {
+
+  e.preventDefault();
+
+  const result = await auth.login({
+    'username': username.value,
+    'password': password.value
+  });
+
+  if (result) {
+    const redirect = route.query.redirect;
+    router.replace(typeof redirect === 'string' ? redirect : { name: 'index' });
+  }
+
+}
 </script>
 
 <template>
@@ -22,7 +51,10 @@
         </div>
       </div>
 
-      <form class="w-full mt-6 text-blue-100 flex flex-col gap-6">
+      <form
+        class="w-full mt-6 text-blue-100 flex flex-col gap-6"
+        @submit="login"
+      >
         <div class="flex flex-col justify-center gap-2">
           <label
             for="username"
@@ -34,8 +66,11 @@
             id="username"
             type="text"
             placeholder="Username"
-            class="w-full px-3 py-2 text-blue-950 rounded border-none outline-none bg-blue-100"
+            class="w-full px-3 py-2 text-blue-950 rounded outline-0 bg-blue-100"
+            :class="{ 'outline-2 outline-red-600': errors.msg || errors.username }"
+            v-model="username"
           >
+          <span v-if="errors" class="text-sm text-red-600">{{ errors.msg ?? errors.username }}</span>
         </div>
         <div class="flex flex-col justify-center gap-2">
           <label
@@ -48,11 +83,14 @@
             id="password"
             type="password"
             placeholder="Password"
-            class="w-full px-3 py-2 text-blue-950 rounded border-none outline-none bg-blue-100"
+            class="w-full px-3 py-2 text-blue-950 rounded border-none outline-0 bg-blue-100"
+            :class="{ 'outline-2 outline-red-600': errors.msg || errors.password }"
+            v-model="password"
           >
+          <span v-if="errors" class="text-sm text-red-600">{{ errors.msg ?? errors.password }}</span>
         </div>
         <button
-          class="mt-4 py-2 uppercase font-semibold tracking-wide text-blue-950 rounded bg-blue-100 hover:bg-linear-to-b hover:from-blue-700 hover:to-blue-900 hover:outline hover:outline-blue-100 hover:text-blue-100 focus:bg-linear-to-b focus:from-blue-700 focus:to-blue-900 focus:outline focus:outline-blue-100 focus:text-blue-100 cursor-pointer"
+          class="mt-4 py-2 uppercase font-semibold tracking-wide rounded bg-linear-to-b from-blue-700 to-blue-900 outline outline-blue-100 text-blue-100 hover:outline-2 hover:from-blue-900 hover:to-blue-700 focus:outline-2 focus:from-blue-900 focus:to-blue-700 cursor-pointer"
         >
           Login
         </button>
