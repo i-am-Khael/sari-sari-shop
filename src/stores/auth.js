@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('useAuthStore', {
       'X-API-KEY': import.meta.env.VITE_API_KEY
     },
     isAuth: false,
-    errors: [],
+    errors: {},
   }),
 
   actions: {
@@ -44,10 +44,9 @@ export const useAuthStore = defineStore('useAuthStore', {
 
       const result = await response.json();
 
-      if (result.status !== 200) {
+      if (result.status !== 201) {
         this.errors = result.errors;
         this.removeErrorMsg();
-        return;
       }
 
       return result;
@@ -69,7 +68,6 @@ export const useAuthStore = defineStore('useAuthStore', {
       if (result.status !== 200) {
         this.errors = result.errors;
         this.removeErrorMsg();
-        return;
       }
 
       return result;
