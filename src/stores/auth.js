@@ -10,6 +10,12 @@ export const useAuthStore = defineStore('useAuthStore', {
       'X-API-KEY': import.meta.env.VITE_API_KEY
     },
     isAuth: false,
+    id: 0,
+    toast: {
+      show: false,
+      type: '',
+      msg: ''
+    },
     errors: {},
   }),
 
@@ -44,12 +50,18 @@ export const useAuthStore = defineStore('useAuthStore', {
 
       const result = await response.json();
 
-      if (result.status !== 201) {
-        this.errors = result.errors;
-        this.removeErrorMsg();
+      if (result.status === 201) {
+        this.toast.show = true;
+        this.toast.type = 'success';
+        this.toast.msg = result.data.msg;
+        this.timeout();
+        this.id = result.data.id;
+        localStorage.setItem('id', result.data.id);
+        return result;
       }
 
-      return result;
+      this.errors = result.errors;
+      this.timeout();
 
     },
 
@@ -67,9 +79,12 @@ export const useAuthStore = defineStore('useAuthStore', {
 
       if (result.status !== 200) {
         this.errors = result.errors;
-        this.removeErrorMsg();
+        this.timeout();
+        return result;
       }
 
+      this.id = result.data.id;
+      localStorage.setItem('id', result.data.id);
       return result;
 
     },
@@ -86,16 +101,20 @@ export const useAuthStore = defineStore('useAuthStore', {
       const result = await response.json();
 
       if (response.ok) {
+        localStorage.clear();
         this.isAuth = result.data.authenticated;
         return result;
       }
 
     },
 
-    removeErrorMsg() {
+    timeout(time = 2500) {
       setTimeout(() => {
+        this.toast.show = false;
+        this.toast.type = '';
+        this.toast.msg = '';
         this.errors = [];
-      }, 2000);
+      }, time);
     }
 
   }

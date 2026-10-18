@@ -48,25 +48,36 @@ const logout = async () => {
           <RouterLink to="/categories">Categories</RouterLink>
         </li>
 
-        <li class="relative">
-          <RouterLink to="/user/checkout">
-            <FontAwesomeIcon
-              class="text-2xl"
-              icon="fa-solid fa-shopping-cart"
-            />
-            <div
-              v-if="totalItems !== 0"
-              class="w-5 h-5 p-4 text-blue-100 flex items-center justify-center rounded-full absolute -top-5 left-3 bg-blue-950/80"
-            >
-              <span class="" >{{ totalItems }}</span>
-            </div>
-          </RouterLink>
-        </li>
-
         <span class="h-8 border-l border-blue-100"></span>
 
-        <li v-if="isAuth">
-          <span class="cursor-pointer" @click="logout">Logout</span>
+        <RouterLink
+          to="/user/checkout"
+          class="relative flex items-center justify-center"
+        >
+          <FontAwesomeIcon
+            class="text-2xl"
+            icon="fa-solid fa-shopping-cart"
+          />
+          <div
+            v-if="totalItems !== 0"
+            class="w-5 h-5 p-4 text-blue-100 flex items-center justify-center rounded-full absolute -top-5 left-3 bg-blue-950/80"
+          >
+            <span class="" >{{ totalItems }}</span>
+          </div>
+        </RouterLink>
+
+        <li v-if="isAuth" class="inline-flex items-center justify-center gap-4">
+          <RouterLink to="/user/profile" class="text-2xl flex items-center justify-center">
+            <FontAwesomeIcon icon="fa-solid fa-user"/>
+          </RouterLink>
+
+          <div class="flex items-center justify-center">
+            <FontAwesomeIcon
+              icon="fa-solid fa-right-from-bracket"
+              class="text-2xl text-red-400 cursor-pointer"
+              @click="logout"
+            />
+          </div>
         </li>
 
         <li v-if="!isAuth" class="px-4 py-2 font-semibold tracking-wide text-sm rounded bg-blue-100/20 backdrop-blur-3xl hover:bg-blue-100/30 hover:outline hover:outline-blue-100/40">
