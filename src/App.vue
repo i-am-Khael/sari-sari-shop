@@ -10,7 +10,7 @@ const { toast } = storeToRefs(auth);
 </script>
 
 <template>
-  <NavBar class="fixed top-0 left-0 z-50"/>
+  <NavBar class="sticky top-0 z-50"/>
   <main class="max-w-[2400px] min-h-screen mx-auto">
     <RouterView/>
     <Toast

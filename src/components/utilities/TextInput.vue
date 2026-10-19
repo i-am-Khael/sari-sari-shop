@@ -37,12 +37,11 @@ const props = defineProps({
   },
   inputClass: {
     type: String,
-    default: 'px-4 py-2 text-blue-900 rounded border-none outline-0 bg-blue-100'
+    default: 'px-4 py-2 text-blue-900 rounded border-none outline-0 bg-blue-100 disabled:cursor-not-allowed'
   },
 });
 
 const emit = defineEmits([ 'update:inputValue' ]);
-
 const updateValue = (event) => emit('update:inputValue', event.target.value);
 </script>
 
