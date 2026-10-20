@@ -2,31 +2,43 @@
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useProfileStore } from '@/stores/profile';
+import { useAddressStore } from '@/stores/address';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Button from '@/components/utilities/Button.vue';
 import TextInput from '@/components/utilities/TextInput.vue';
+import SelectInput from '@/components/utilities/SelectInput.vue';
 import TextArea from '@/components/utilities/TextArea.vue';
 
 const store = useProfileStore();
+const address = useAddressStore();
 const { profile } = storeToRefs(store);
+const { loading, regions, provinces, municipalities, brgys } = storeToRefs(address);
 
 const isEditable = ref(false);
 const firstname = ref('');
 const lastname = ref('');
 const email = ref('');
 const phone = ref('');
-const address = ref('');
+const region = ref('');
+const province = ref('');
+const municipality = ref('');
+const brgy = ref('');
+const street = ref('');
 
 const saveProfile = async () => {
   isEditable.value = false;
 
   const data = {
     'id': localStorage.getItem('id') ?? 0,
-    'firstName': firstname.value ?? profile.value.first_name,
-    'lastName': lastname.value ?? profile.value.last_name,
-    'email': email.value ?? profile.value.email,
-    'phone': phone.value ?? profile.value.phone,
-    'address': address.value ?? profile.value.address,
+    'firstName': firstname.value,
+    'lastName': lastname.value,
+    'email': email.value,
+    'phone': phone.value,
+    'region': region.value,
+    'province': province.value,
+    'municipalities': municipalities.value,
+    'brgy': brgy.value,
+    'street': street.value
   }
 
   const result = await store.save(data);
@@ -34,6 +46,7 @@ const saveProfile = async () => {
 
 onMounted(async () => {
   await store.getProfile(localStorage.getItem('id') ?? 0);
+  await address.getRegions();
 });
 </script>
 
@@ -114,14 +127,62 @@ onMounted(async () => {
             v-model:input-value="phone"
           />
         </div>
-        <TextArea
-          id="address"
-          label="Address"
-          :text="profile.address ?? 'Address'"
-          :disabled="!isEditable"
-          textAreaClass="p-2 rounded bg-blue-200 disabled:cursor-not-allowed"
-          v-model:input-value="address"
-        />
+        <div class="mt-4 p-4 rounded bg-blue-200">
+          <p class="uppercase font-semibold tracking-wide">Address Details</p>
+          <div class="mt-4 grid grid-cols-2 gap-2">
+            <SelectInput
+              id="region"
+              label="Region"
+              :options="regions"
+              optionValue="code"
+              optionLabel="regionName"
+              :disabled="!isEditable"
+              :isLoading="loading.regions"
+              v-model:input-value="region"
+              @update:inputValue="address.getProvinces(region)"
+            />
+            <SelectInput
+              id="province"
+              label="Province"
+              :options="provinces"
+              optionValue="code"
+              optionLabel="name"
+              :disabled="!isEditable"
+              :isLoading="loading.provinces"
+              v-model:input-value="province"
+              @update:inputValue="address.getMunicipalities(province)"
+            />
+          </div>
+          <div class="my-4 grid grid-cols-2 gap-2">
+            <SelectInput
+              id="municipality"
+              label="municipality"
+              :options="municipalities"
+              optionValue="code"
+              optionLabel="name"
+              :disabled="!isEditable"
+              :isLoading="loading.municipalities"
+              v-model:input-value="municipality"
+              @update:inputValue="address.getBrgys(municipality)"
+            />
+            <SelectInput
+              id="brgy"
+              label="Barangays"
+              :options="brgys"
+              optionValue="code"
+              optionLabel="name"
+              :disabled="!isEditable"
+              :isLoading="loading.brgys"
+              v-model:input-value="brgy"
+            />
+          </div>
+          <TextArea
+            id="street"
+            label="Street/Subd/Bldg/Lot Details"
+            :disabled="!isEditable"
+            v-model="street"
+          />
+        </div>
       </form>
 
 

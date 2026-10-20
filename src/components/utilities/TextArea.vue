@@ -42,7 +42,7 @@ const props = defineProps({
   },
   textAreaClass: {
     type: String,
-    default: 'w-full p-2 rounded outline-0 bg-slate-100'
+    default: 'w-full h-20 p-2 rounded outline-0 bg-slate-100 disabled:cursor-not-allowed'
   }
 });
 
@@ -57,13 +57,9 @@ const updateValue = (event) => emit('update:inputValue', event.target.value);
       :id="props.id"
       :required="props.required"
       :disabled="props.disabled"
-      :rows="props.rows"
-      :cols="props.cols"
       :class="[props.textAreaClass, { 'outline-2 outline-red-600': props.error }]"
       @input="updateValue"
-    >
-      {{ props.text }}
-    </textarea>
+    >{{ props.text }}</textarea>
     <span v-if="props.error" class="text-red-600">{{ props.error }}</span>
   </div>
 </template>
