@@ -18,76 +18,35 @@ const logout = async () => {
 </script>
 
 <template>
-  <header class="w-full bg-linear-to-r from-blue-950 to-blue-700 shadow-lg shadow-slate-950/30 print:hidden">
-    <nav class="max-w-[2400px] mx-auto px-5 py-4 flex items-center justify-between">
-      <RouterLink
-        to="/"
-        class="group flex items-center gap-3 text-slate-100"
-      >
-        <span class="h-11 w-11 flex items-center justify-center rounded bg-slate-50/10 ring-1 ring-slate-50/20 shadow-inner backdrop-blur-sm group-hover:bg-slate-50/20 group-hover:ring-slate-50/30">
-          <FontAwesomeIcon
-            icon="fa-solid fa-box"
-            class="text-2xl text-blue-200 transition-transform duration-200 group-hover:scale-110"
-          />
+  <header>
+    <nav>
+
+      <RouterLink to="/" class="icon-container">
+        <span class="icon">
+          <FontAwesomeIcon icon="fa-solid fa-box"/>
         </span>
-        <div class="flex flex-col leading-tight">
-          <h1 class="text-xl font-bold tracking-wide sm:text-2xl">Sari-Sari-Shop</h1>
-          <span class="text-xs font-medium text-blue-200/80">
+        <div class="icon-text-container">
+          <h1>Sari-Sari-Shop</h1>
+          <span>
             Everything you need, everyday.
           </span>
         </div>
       </RouterLink>
 
-      <ul class="font-semibold text-blue-100 inline-flex items-center justify-center gap-4">
-
+      <ul class="link-container">
         <li>
           <RouterLink to="/products">Products</RouterLink>
         </li>
-
         <li>
           <RouterLink to="/categories">Categories</RouterLink>
         </li>
-
-        <span class="h-8 border-l border-blue-100"></span>
-
-        <RouterLink
-          to="/user/checkout"
-          class="relative flex items-center justify-center"
-        >
-          <FontAwesomeIcon
-            class="text-2xl"
-            icon="fa-solid fa-shopping-cart"
-          />
-          <div
-            v-if="totalItems !== 0"
-            class="w-5 h-5 p-4 text-blue-100 flex items-center justify-center rounded-full absolute -top-5 left-3 bg-blue-950/80"
-          >
-            <span class="" >{{ totalItems }}</span>
-          </div>
-        </RouterLink>
-
-        <li v-if="isAuth" class="inline-flex items-center justify-center gap-4">
-          <RouterLink to="/user/profile" class="text-2xl flex items-center justify-center">
-            <FontAwesomeIcon icon="fa-solid fa-user"/>
-          </RouterLink>
-
-          <div class="flex items-center justify-center">
-            <FontAwesomeIcon
-              icon="fa-solid fa-right-from-bracket"
-              class="text-2xl text-red-400 cursor-pointer"
-              @click="logout"
-            />
-          </div>
-        </li>
-
-        <li v-if="!isAuth" class="px-4 py-2 font-semibold tracking-wide text-sm rounded bg-blue-100/20 backdrop-blur-3xl hover:bg-blue-100/30 hover:outline hover:outline-blue-100/40">
+        <span class="divider"></span>
+        <li class="login">
           <RouterLink to="/login">Login</RouterLink>
         </li>
-
-        <li v-if="!isAuth" class="px-4 py-2 font-semibold tracking-wide text-sm rounded bg-blue-100/20 backdrop-blur-3xl hover:bg-blue-100/30 hover:outline hover:outline-blue-100/40">
+        <li class="register">
           <RouterLink to="/register">Register</RouterLink>
         </li>
-
       </ul>
 
     </nav>

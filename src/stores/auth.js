@@ -9,8 +9,8 @@ export const useAuthStore = defineStore('useAuthStore', {
       'Content-Type': 'application/json',
       'X-API-KEY': import.meta.env.VITE_API_KEY
     },
+    isLoading: false,
     isAuth: false,
-    id: 0,
     toast: {
       show: false,
       type: '',
@@ -41,6 +41,8 @@ export const useAuthStore = defineStore('useAuthStore', {
 
     async register(data) {
 
+      this.isLoading = true;
+
       const response = await fetch(`${this.apiURI}/auth/register`, {
         method: 'POST',
         headers: this.headers,
@@ -55,10 +57,11 @@ export const useAuthStore = defineStore('useAuthStore', {
         this.toast.type = 'success';
         this.toast.msg = result.data.msg;
         this.timeout();
-        this.id = result.data.id;
-        localStorage.setItem('id', result.data.id);
+        localStorage.setItem('profile', result.data.profile);
         return result;
       }
+
+      this.isLoading = false;
 
       this.errors = result.errors;
       this.timeout();

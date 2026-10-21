@@ -1,0 +1,22 @@
+
+@layer base {
+  body {
+    @apply w-full min-h-dvh text-blue-950 bg-blue-200;
+  }
+
+  main {
+    @apply container mx-auto min-h-dvh;
+  }
+
+  header {
+    @apply w-dvw sticky top-0 z-50 bg-linear-to-b from-blue-900 to-blue-700;
+  }
+
+  nav {
+    @apply container mx-auto py-3 flex items-center justify-between;
+  }
+
+  footer {
+    @apply w-dvw bg-linear-to-b from-blue-900 to-blue-700;
+  }
+}

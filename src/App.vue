@@ -10,8 +10,8 @@ const { toast } = storeToRefs(auth);
 </script>
 
 <template>
-  <NavBar class="sticky top-0 z-50"/>
-  <main class="max-w-[2400px] min-h-screen mx-auto">
+  <NavBar/>
+  <main>
     <RouterView/>
     <Toast
       :show="toast.show"

@@ -22,7 +22,7 @@ const register = async (data) => {
 </script>
 
 <template>
-  <section class="w-full min-h-screen flex items-center justify-center">
+  <section>
     <AuthForm @submit="register" btnLabel="Register" :errors="errors"/>
   </section>
 </template>

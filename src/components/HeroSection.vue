@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 </script>
 
 <template>
-  <section class="w-full h-auto mt-21 relative overflow-hidden bg-slate-50">
+  <section class="w-full h-auto relative overflow-hidden bg-slate-50">
     <div class="h-96 w-96 absolute -right-32 -top-32 rounded-full bg-blue-300 blur-3xl"></div>
     <div class="h-96 w-96 absolute -bottom-40 -left-32 rounded-full bg-blue-300 blur-3xl"></div>
 

@@ -1,0 +1,47 @@
+
+@layer components {
+  .icon-container {
+    @apply flex items-center gap-3 text-blue-100;
+
+    .icon {
+      @apply p-2 text-3xl rounded backdrop-blur-md bg-blue-100/20
+    }
+
+    .icon-text-container {
+      @apply flex flex-col leading-tight;
+    }
+
+    h1 {
+      @apply uppercase tracking-wide font-black text-xl;
+    }
+
+    span {
+      @apply tracking-wide font-extrabold text-sm;
+    }
+
+  }
+
+  .link-container {
+    @apply inline-flex items-center justify-center gap-4;
+
+    a {
+      @apply uppercase font-semibold text-blue-100 underline-offset-5 hover:underline;
+    }
+
+    .divider {
+      @apply h-11 border-l border-l-blue-50/50
+    }
+
+    .router-link-exact-active {
+      @apply underline;
+    }
+
+    .login, .register {
+      @apply px-3 py-2 rounded bg-blue-100/20 hover:bg-blue-100/60 hover:text-blue-600;
+    }
+  }
+
+  .footer-container {
+    @apply container mx-auto py-6 text-blue-50;
+  }
+}
