@@ -15,7 +15,8 @@ const { profile } = storeToRefs(store);
 const { loading, regions, provinces, municipalities, brgys } = storeToRefs(address);
 
 const isEditable = ref(false);
-const firstname = ref('');
+const username = ref('');
+const firstname = ref();
 const lastname = ref('');
 const email = ref('');
 const phone = ref('');
@@ -36,23 +37,35 @@ const saveProfile = async () => {
     'phone': phone.value,
     'region': region.value,
     'province': province.value,
-    'municipalities': municipalities.value,
+    'municipalities': municipality.value,
     'brgy': brgy.value,
     'street': street.value
   }
 
-  const result = await store.save(data);
 }
 
+const prof = JSON.parse(localStorage.getItem('profile'));
+
 onMounted(async () => {
-  await store.getProfile(localStorage.getItem('id') ?? 0);
+
+  if (prof || profile) {
+    username.value = prof.username ?? profile.username;
+    firstname.value = prof.firstName ?? profile.firstName;
+    lastname.value = prof.lastName ?? profile.lastName;
+    email.value = prof.email ?? profile.email;
+    region.value = prof.region ?? profile.region;
+    province.value = prof.province?? profile.province;
+    municipality.value = prof.municipality ?? profile.municipality;
+    brgy.value = prof.brgy ?? profile.brgy;
+    street.value = prof.street ?? profile.street;
+  }
+
   await address.getRegions();
 });
 </script>
 
 <template>
   <section class="w-full pt-2">
-
     <div class="w-[80%] mx-auto rounded bg-blue-100 shadow-xl overflow-hidden">
       <div class="w-full p-6 flex items-baseline-last justify-between text-slate-950 bg-linear-to-l from-purple-400 to-purple-700">
         <div class="flex items-baseline justify-center gap-3">
@@ -61,7 +74,7 @@ onMounted(async () => {
           </div>
           <div class="text-3xl text-slate-100 font-semibold flex flex-col">
             <span v-if="profile.first_name" >{{`${profile.first_name} ${profile.last_name}`}}</span>
-            <span>@{{ profile.username }}</span>
+            <span>@{{ prof.username }}</span>
           </div>
         </div>
 
@@ -167,7 +180,7 @@ onMounted(async () => {
             />
             <SelectInput
               id="brgy"
-              label="Barangays"
+              label="Barangay"
               :options="brgys"
               optionValue="code"
               optionLabel="name"

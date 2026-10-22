@@ -43,6 +43,16 @@ const router = createRouter({
       ]
     },
     {
+      path: '/products',
+      name: 'products',
+      component: () => import('../views/ProductsView.vue'),
+    },
+    {
+      path: '/featured',
+      name: 'featured',
+      component: () => import('../views/FeaturedView.vue'),
+    },
+    {
       path: '/categories',
       name: 'categories',
       component: () => import('../views/CategoriesView.vue'),
@@ -52,11 +62,6 @@ const router = createRouter({
       name: 'category',
       component: () => import('../views/CategoriesView.vue'),
     },
-    {
-      path: '/products',
-      name: 'products',
-      component: () => import('../views/ProductsView.vue'),
-    }
   ],
 })
 

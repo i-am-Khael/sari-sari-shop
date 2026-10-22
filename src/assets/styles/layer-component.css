@@ -18,28 +18,64 @@
     span {
       @apply tracking-wide font-extrabold text-sm;
     }
-
   }
 
   .link-container {
     @apply inline-flex items-center justify-center gap-4;
 
-    a {
-      @apply uppercase font-semibold text-blue-100 underline-offset-5 hover:underline;
+    .common-links, .auth-links, .user-links, .user-links div {
+      @apply inline-flex items-center justify-center gap-4;
     }
 
-    .divider {
-      @apply h-11 border-l border-l-blue-50/50
-    }
+    .common-links li {
+      @apply uppercase tracking-wide font-semibold text-blue-100 hover:text-yellow-300;
 
-    .router-link-exact-active {
-      @apply underline;
+      .router-link-exact-active {
+        @apply text-yellow-300;
+      }
     }
 
     .login, .register {
-      @apply px-3 py-2 rounded bg-blue-100/20 hover:bg-blue-100/60 hover:text-blue-600;
+      @apply px-3 py-2 uppercase tracking-wide font-semibold text-sm text-blue-100 rounded bg-blue-100/40 hover:bg-blue-100 hover:text-blue-700;
     }
+
+    .login.router-link-exact-active, .register.router-link-exact-active {
+      @apply text-blue-700 bg-blue-100;
+    }
+
+    .user-links {
+      @apply text-2xl text-blue-100;
+
+      li {
+        @apply hover:text-yellow-300;
+      }
+
+      .checkout {
+        @apply relative;
+
+        span {
+          @apply w-8 h-8 p-2 font-semibold text-black rounded-full absolute -top-3 left-3 flex items-center justify-center bg-blue-100 text-sm
+        }
+
+      }
+
+      .router-link-exact-active {
+        @apply text-yellow-300;
+      }
+
+      .logout {
+        @apply text-red-600 cursor-pointer;
+      }
+    }
+
+    .divider {
+      @apply h-11 border-l border-blue-100/40;
+    }
+
   }
+
+
+
 
   .footer-container {
     @apply container mx-auto py-6 text-blue-50;

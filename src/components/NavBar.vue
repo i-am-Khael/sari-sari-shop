@@ -33,21 +33,53 @@ const logout = async () => {
         </div>
       </RouterLink>
 
-      <ul class="link-container">
-        <li>
-          <RouterLink to="/products">Products</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/categories">Categories</RouterLink>
-        </li>
-        <span class="divider"></span>
-        <li class="login">
-          <RouterLink to="/login">Login</RouterLink>
-        </li>
-        <li class="register">
-          <RouterLink to="/register">Register</RouterLink>
-        </li>
-      </ul>
+      <div class="link-container">
+        <ul class="common-links">
+          <li>
+            <RouterLink to="/products">Products</RouterLink>
+          </li>
+
+          <li>
+            <RouterLink to="/featured">Featured</RouterLink>
+          </li>
+
+          <li>
+            <RouterLink to="/categories">Categories</RouterLink>
+          </li>
+        </ul>
+
+        <ul v-if="!isAuth" class="auth-links">
+          <li>
+            <RouterLink to="/login" class="login" >Login</RouterLink>
+          </li>
+
+          <li>
+            <RouterLink to="/register" class="register">Register</RouterLink>
+          </li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <ul class="user-links">
+          <li class="checkout">
+            <RouterLink to="/user/checkout" >
+              <FontAwesomeIcon icon="fa-solid fa-shopping-cart"/>
+            </RouterLink>
+            <span v-if="totalItems" >{{ totalItems }}</span>
+          </li>
+          <div v-if="isAuth">
+            <li>
+              <RouterLink to="/user/profile">
+                <FontAwesomeIcon icon="fa-solid fa-circle-user"/>
+              </RouterLink>
+            </li>
+            <li class="logout" @click="logout">
+              <FontAwesomeIcon icon="fa-solid fa-right-from-bracket"/>
+            </li>
+          </div>
+        </ul>
+
+      </div>
 
     </nav>
   </header>

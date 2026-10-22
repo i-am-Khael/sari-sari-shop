@@ -57,7 +57,7 @@ export const useAuthStore = defineStore('useAuthStore', {
         this.toast.type = 'success';
         this.toast.msg = result.data.msg;
         this.timeout();
-        localStorage.setItem('profile', result.data.profile);
+        this.profile = result.data.profile;
         return result;
       }
 
@@ -86,8 +86,7 @@ export const useAuthStore = defineStore('useAuthStore', {
         return result;
       }
 
-      this.id = result.data.id;
-      localStorage.setItem('id', result.data.id);
+      this.profile = result.data.profile;
       return result;
 
     },

@@ -16,8 +16,8 @@ const login = async (data) => {
 
   const result = await auth.login(data);
 
-  if (result) {
-    await profile.getProfile(result.data.id);
+  if (result.status === 200) {
+    localStorage.setItem('profile', JSON.stringify(result.data.profile));
     const redirect = route.query.redirect;
     router.replace(typeof redirect === 'string' ? redirect : { name: 'index' });
   }
@@ -26,7 +26,7 @@ const login = async (data) => {
 </script>
 
 <template>
-  <section class="w-full min-h-screen flex items-center justify-center">
+  <section class="login-section">
     <AuthForm @submit="login" btnLabel="Login" :errors="errors"/>
   </section>
 </template>
