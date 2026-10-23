@@ -8,6 +8,14 @@
     @apply container mx-auto min-h-dvh;
   }
 
+  section {
+    @apply w-full min-h-dvh;
+  }
+
+  footer {
+    @apply w-dvw bg-linear-to-b from-blue-900 to-blue-700;
+  }
+
   header {
     @apply w-dvw sticky top-0 z-50 bg-linear-to-b from-blue-700 to-blue-900;
   }
@@ -16,7 +24,19 @@
     @apply container mx-auto py-3 flex items-center justify-between;
   }
 
-  footer {
-    @apply w-dvw bg-linear-to-b from-blue-900 to-blue-700;
+  form {
+    @apply w-full p-5 flex flex-col gap-4;
+
+    div {
+      @apply flex flex-col gap-3;
+    }
+
+    label {
+      @apply uppercase font-semibold tracking-wide;
+    }
+
+    input, select, textarea {
+      @apply px-4 py-2 rounded border-none outline outline-slate-400 disabled:cursor-not-allowed;
+    }
   }
 }

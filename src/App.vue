@@ -5,8 +5,7 @@ import NavBar from './components/NavBar.vue';
 import FooterSection from './components/FooterSection.vue';
 import Toast from './components/utilities/Toast.vue';
 
-const auth = useAuthStore();
-const { toast } = storeToRefs(auth);
+const toast = JSON.parse(localStorage.getItem('toast'));
 </script>
 
 <template>
@@ -14,9 +13,9 @@ const { toast } = storeToRefs(auth);
   <main>
     <RouterView/>
     <Toast
-      :show="toast.show"
-      :type="toast.type"
-      :text="toast.msg"
+      :show="toast?.show ?? false"
+      :type="toast?.type"
+      :text="toast?.msg"
     />
   </main>
   <FooterSection/>

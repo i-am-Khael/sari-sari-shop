@@ -42,14 +42,8 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  labelClass: {
-    type: String,
-    default: 'uppercase font-semibold tracking-wide'
-  },
-  selectClass: {
-    type: String,
-    default: 'px-4 py-2 rounded border-none outline-0 bg-blue-100 disabled:cursor-not-allowed'
-  },
+  labelClass: String,
+  selectClass: String,
   isLoading: {
     type: Boolean,
     default: false
@@ -69,7 +63,7 @@ const updateValue = (event) => emit('update:inputValue', event.target.value);
 		  :id="props.id"
 			:required="props.required"
 			:disabled="props.disabled"
-			:class="props.selectClass"
+			:class="[props.selectClass, { 'error-input': props.error }]"
 			@input="updateValue"
 		>
 		  <option value="">{{ props.textOption }}</option>
@@ -81,5 +75,6 @@ const updateValue = (event) => emit('update:inputValue', event.target.value);
 			  {{ item[props.optionLabel] }}
 			</option>
 		</select>
+		<span v-if="props.error" class="error-msg">{{ props.error }}</span>
 	</div>
 </template>

@@ -1,0 +1,31 @@
+@layer components {
+
+  .profile-container {
+    @apply w-[80%] mx-auto my-4 rounded bg-blue-100 shadow-xl overflow-hidden;
+  }
+
+  .profile-header {
+    @apply w-full p-6 flex  items-baseline justify-between text-slate-950 bg-linear-to-l from-purple-400 to-purple-700;
+  }
+
+  .profile-icon-container {
+    @apply flex justify-center gap-3;
+  }
+
+  .profile-icon {
+    @apply w-40 h-40 text-8xl text-slate-400 flex items-center justify-center rounded-full bg-slate-50;
+  }
+
+  .profile-name {
+    @apply mt-15 text-3xl text-slate-100 font-semibold flex flex-col justify-center;
+  }
+
+  .profile-btn-container {
+    @apply flex items-center justify-center gap-4;
+  }
+
+  .edit-profile-btn, .save-profile-btn {
+    @apply px-6 py-3 font-semibold text-slate-50 rounded outline-2 outline-blue-200 bg-linear-to-b from-purple-400 to-purple-700 cursor-pointer;
+  }
+
+}

@@ -36,14 +36,8 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  labelClass: {
-    type: String,
-    default: 'uppercase font-semibold tracking-wide'
-  },
-  textAreaClass: {
-    type: String,
-    default: 'w-full h-20 p-2 rounded outline-0 bg-slate-100 disabled:cursor-not-allowed'
-  }
+  labelClass: String,
+  textAreaClass: String
 });
 
 const emit = defineEmits([ 'update:inputValue' ]);
@@ -57,9 +51,9 @@ const updateValue = (event) => emit('update:inputValue', event.target.value);
       :id="props.id"
       :required="props.required"
       :disabled="props.disabled"
-      :class="[props.textAreaClass, { 'outline-2 outline-red-600': props.error }]"
+      :class="[props.textAreaClass, { 'error-input': props.error }]"
       @input="updateValue"
     >{{ props.text }}</textarea>
-    <span v-if="props.error" class="text-red-600">{{ props.error }}</span>
+    <span v-if="props.error" class="error-msg">{{ props.error }}</span>
   </div>
 </template>

@@ -1,4 +1,6 @@
 @import "tailwindcss";
 @import "layer-base.css";
 @import "layer-component.css";
+@import "header-nav-layer.css";
+@import "profile-layer.css";
 @import "theme.css";

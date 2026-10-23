@@ -11,8 +11,10 @@ import TextArea from '@/components/utilities/TextArea.vue';
 
 const store = useProfileStore();
 const address = useAddressStore();
-const { profile } = storeToRefs(store);
+const { profile, errors } = storeToRefs(store);
 const { loading, regions, provinces, municipalities, brgys } = storeToRefs(address);
+
+const prof = JSON.parse(localStorage.getItem('profile'));
 
 const isEditable = ref(false);
 const username = ref('');
@@ -26,11 +28,11 @@ const municipality = ref('');
 const brgy = ref('');
 const street = ref('');
 
-const saveProfile = async () => {
+const save = async () => {
   isEditable.value = false;
 
   const data = {
-    'id': localStorage.getItem('id') ?? 0,
+    'id': prof.id ?? 0,
     'firstName': firstname.value,
     'lastName': lastname.value,
     'email': email.value,
@@ -42,9 +44,9 @@ const saveProfile = async () => {
     'street': street.value
   }
 
-}
+  await store.saveProfile(data);
 
-const prof = JSON.parse(localStorage.getItem('profile'));
+}
 
 onMounted(async () => {
 
@@ -65,49 +67,47 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section class="w-full pt-2">
-    <div class="w-[80%] mx-auto rounded bg-blue-100 shadow-xl overflow-hidden">
-      <div class="w-full p-6 flex items-baseline-last justify-between text-slate-950 bg-linear-to-l from-purple-400 to-purple-700">
-        <div class="flex items-baseline justify-center gap-3">
-          <div class="w-40 h-40 text-8xl text-slate-400 flex items-center justify-center rounded-full bg-slate-50" >
+  <section>
+    <div class="profile-container">
+{{ profile }}
+      <div class="profile-header">
+        <div class="profile-icon-container">
+          <div class="profile-icon">
             <FontAwesomeIcon icon="fa-solid fa-user-tie"/>
           </div>
-          <div class="text-3xl text-slate-100 font-semibold flex flex-col">
-            <span v-if="profile.first_name" >{{`${profile.first_name} ${profile.last_name}`}}</span>
+          <div class="profile-name">
+            <span v-if="prof.firstName" >{{`${prof.firstName} ${prof.lastName}`}}</span>
             <span>@{{ prof.username }}</span>
           </div>
         </div>
 
-        <div class="flex items-center justify-center gap-4">
+        <div class="profile-btn-container">
           <Button
             v-if="!isEditable"
             type="button"
             label="Edit Profile"
-            class="px-6 py-3 font-semibold text-slate-50 rounded outline-2 outline-blue-200 bg-linear-to-b from-purple-400 to-purple-700 cursor-pointer"
+            class="edit-profile-btn"
             @click="isEditable = true"
           />
           <Button
             v-else
             type="button"
             label="Save Profile"
-            class="px-6 py-3 font-semibold text-slate-50 rounded outline-2 outline-blue-200 bg-linear-to-b from-purple-400 to-purple-700 cursor-pointer"
-            @click="saveProfile"
+            class="save-profile-btn"
+            @click="save"
           />
         </div>
       </div>
 
-      <form
-        class="w-full p-4 flex flex-col gap-3"
-        @submit.prevent=""
-      >
-        <div class="flex items-center justify-center gap-4">
+      <form @submit.prevent="">
+        <div class="input-container">
           <TextInput
             id="firstname"
             type="text"
             label="Firstname"
             :disabled="!isEditable"
             :placeholder="profile.first_name ?? 'Firstname'"
-            inputClass="px-3 py-2 text-slate-950 rounded border-none bg-blue-200 disabled:cursor-not-allowed"
+            inputClass=""
             v-model:input-value="firstname"
           />
           <TextInput
@@ -116,18 +116,19 @@ onMounted(async () => {
             label="Lastname"
             :disabled="!isEditable"
             :placeholder="profile.last_name ?? 'Lastname'"
-            inputClass="px-3 py-2 text-slate-950 rounded border-none bg-blue-200 disabled:cursor-not-allowed"
+            inputClass=""
             v-model:input-value="lastname"
           />
         </div>
-        <div class="flex items-center justify-center gap-4">
+        <div class="input-container">
           <TextInput
             id="email"
             type="email"
             label="Email"
             :disabled="!isEditable"
             :placeholder="profile.email ?? 'Email'"
-            inputClass="px-3 py-2 text-slate-950 rounded border-none bg-blue-200 disabled:cursor-not-allowed"
+            :error="errors?.email ?? ''"
+            inputClass=""
             v-model:input-value="email"
           />
           <TextInput
@@ -136,13 +137,13 @@ onMounted(async () => {
             label="Phone"
             :disabled="!isEditable"
             :placeholder="profile.phone ?? 'Phone'"
-            inputClass="px-3 py-2 text-slate-950 rounded border-none bg-blue-200 disabled:cursor-not-allowed"
+            inputClass=""
             v-model:input-value="phone"
           />
         </div>
-        <div class="mt-4 p-4 rounded bg-blue-200">
-          <p class="uppercase font-semibold tracking-wide">Address Details</p>
-          <div class="mt-4 grid grid-cols-2 gap-2">
+        <div class="address-details-container">
+          <p>Address Details</p>
+          <div class="input-container">
             <SelectInput
               id="region"
               label="Region"
@@ -166,7 +167,7 @@ onMounted(async () => {
               @update:inputValue="address.getMunicipalities(province)"
             />
           </div>
-          <div class="my-4 grid grid-cols-2 gap-2">
+          <div class="input-container">
             <SelectInput
               id="municipality"
               label="municipality"

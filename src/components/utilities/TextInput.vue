@@ -31,14 +31,8 @@ const props = defineProps({
   error: {
     type: String
   },
-  labelClass: {
-    type: String,
-    default: 'uppercase font-semibold tracking-wide'
-  },
-  inputClass: {
-    type: String,
-    default: 'px-4 py-2 text-blue-900 rounded border-none outline-0 bg-blue-100 disabled:cursor-not-allowed'
-  },
+  labelClass: String,
+  inputClass: String
 });
 
 const emit = defineEmits([ 'update:inputValue' ]);
@@ -46,7 +40,7 @@ const updateValue = (event) => emit('update:inputValue', event.target.value);
 </script>
 
 <template>
-  <div class="w-full flex flex-col gap-2">
+  <div>
     <label :for="props.id" :class="props.labelClass">{{ props.label }}</label>
     <input
       :id="props.id"
@@ -56,9 +50,9 @@ const updateValue = (event) => emit('update:inputValue', event.target.value);
       :required="props.required"
       :disabled="props.disabled"
       :value="props.inputValue"
-      :class="[ props.inputClass, { 'outline-2 outline-red-600': props.error } ]"
+      :class="[ props.inputClass, { 'input-error': props.error } ]"
       @input="updateValue"
     />
-    <span v-if="props.error" class="text-sm text-red-600" >{{ props.error }}</span>
+    <span v-if="props.error" class="error-msg" >{{ props.error }}</span>
   </div>
 </template>
