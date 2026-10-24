@@ -2,7 +2,7 @@
 @layer components {
 
   .error-input {
-    @apply border-2 outline-red-600;
+    @apply outline-2 outline-red-600;
   }
 
   .error-msg {

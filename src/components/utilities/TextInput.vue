@@ -50,7 +50,7 @@ const updateValue = (event) => emit('update:inputValue', event.target.value);
       :required="props.required"
       :disabled="props.disabled"
       :value="props.inputValue"
-      :class="[ props.inputClass, { 'input-error': props.error } ]"
+      :class="[ props.inputClass, { 'error-input': props.error } ]"
       @input="updateValue"
     />
     <span v-if="props.error" class="error-msg" >{{ props.error }}</span>

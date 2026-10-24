@@ -52,7 +52,7 @@ const icon = computed(() => props.icon || style.value.icon);
   <Transition name="toast" appear>
   	<div
       v-if="props.show"
-  	  class="m-6 p-3 font-semibold tracking-wide absolute top-0 right-0 inline-flex items-center justify-center gap-2 rounded shadow-md z-99"
+  	  class="m-6 p-3 font-semibold tracking-wide fixed top-0 right-0 inline-flex items-center justify-center gap-2 rounded shadow-md z-99"
   		:class="style.classes"
   	>
   	  <FontAwesomeIcon :icon="icon" class="text-2xl"/>

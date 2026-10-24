@@ -9,6 +9,12 @@ export const useProfileStore = defineStore('useProfileStore', {
       'Content-Type': 'application/json',
       'X-API-KEY': import.meta.env.VITE_API_KEY
     },
+    toast: {
+      show: false,
+      type: '',
+      msg: ''
+    },
+    errors: {},
     profile: {}
   }),
 
@@ -38,7 +44,7 @@ export const useProfileStore = defineStore('useProfileStore', {
     async saveProfile(data) {
 
       const response = await fetch(`${this.apiURI}/user/profile/save`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: this.headers,
         credentials: 'include',
         body: JSON.stringify(data)
@@ -46,32 +52,40 @@ export const useProfileStore = defineStore('useProfileStore', {
 
       const result = await response.json();
 
-      if (result.status === 200) {
-        localStorage.setItem('toast',
-          JSON.stringify({
-            show: true,
-            type: 'success',
-            msg: result?.data.msg
-          })
-        );
+      if (response.ok) {
+
+        this.showToast('success', result.data.msg);
+        this.profile = result.data.profile;
+
+      } else {
+
+        if (result.errors.msg) {
+          this.showToast('error', result.errors.msg);
+        }
+
+        this.errors = result.errors ?? {};
+
       }
 
-      this
-
-      if (result.errors.msg) {
-        localStorage.setItem('toast',
-          JSON.stringify({
-            show: true,
-            type: 'error',
-            msg: result.errors.msg ?? ''
-          })
-        );
-      }
-
-
+      this.hideToastAndErrors();
+      return result;
 
     },
 
+    showToast(type, msg) {
+      this.toast.show = true;
+      this.toast.type = type;
+      this.toast.msg = msg;
+    },
+
+    hideToastAndErrors() {
+      setTimeout(() => {
+        this.toast.show = false;
+        this.toast.type = '';
+        this.toast.msg = '';
+        this.errors = {};
+      }, 2500);
+    }
 
   }
 });

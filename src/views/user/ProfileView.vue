@@ -8,10 +8,11 @@ import Button from '@/components/utilities/Button.vue';
 import TextInput from '@/components/utilities/TextInput.vue';
 import SelectInput from '@/components/utilities/SelectInput.vue';
 import TextArea from '@/components/utilities/TextArea.vue';
+import Toast from '@/components/utilities/Toast.vue';
 
 const store = useProfileStore();
 const address = useAddressStore();
-const { profile, errors } = storeToRefs(store);
+const { profile, toast, errors } = storeToRefs(store);
 const { loading, regions, provinces, municipalities, brgys } = storeToRefs(address);
 
 const prof = JSON.parse(localStorage.getItem('profile'));
@@ -39,7 +40,7 @@ const save = async () => {
     'phone': phone.value,
     'region': region.value,
     'province': province.value,
-    'municipalities': municipality.value,
+    'municipality': municipality.value,
     'brgy': brgy.value,
     'street': street.value
   }
@@ -51,15 +52,15 @@ const save = async () => {
 onMounted(async () => {
 
   if (prof || profile) {
-    username.value = prof.username ?? profile.username;
-    firstname.value = prof.firstName ?? profile.firstName;
-    lastname.value = prof.lastName ?? profile.lastName;
-    email.value = prof.email ?? profile.email;
-    region.value = prof.region ?? profile.region;
-    province.value = prof.province?? profile.province;
-    municipality.value = prof.municipality ?? profile.municipality;
-    brgy.value = prof.brgy ?? profile.brgy;
-    street.value = prof.street ?? profile.street;
+    username.value = prof.username;
+    firstname.value = prof.firstName;
+    lastname.value = prof.lastName;
+    email.value = prof.email;
+    region.value = prof.region;
+    province.value = prof.province;
+    municipality.value = prof.municipalitypality;
+    brgy.value = prof.brgy;
+    street.value = prof.street;
   }
 
   await address.getRegions();
@@ -69,7 +70,6 @@ onMounted(async () => {
 <template>
   <section>
     <div class="profile-container">
-{{ profile }}
       <div class="profile-header">
         <div class="profile-icon-container">
           <div class="profile-icon">
@@ -106,7 +106,7 @@ onMounted(async () => {
             type="text"
             label="Firstname"
             :disabled="!isEditable"
-            :placeholder="profile.first_name ?? 'Firstname'"
+            placeholder="Firstname"
             inputClass=""
             v-model:input-value="firstname"
           />
@@ -115,7 +115,7 @@ onMounted(async () => {
             type="text"
             label="Lastname"
             :disabled="!isEditable"
-            :placeholder="profile.last_name ?? 'Lastname'"
+            placeholder="Lastname"
             inputClass=""
             v-model:input-value="lastname"
           />
@@ -126,7 +126,7 @@ onMounted(async () => {
             type="email"
             label="Email"
             :disabled="!isEditable"
-            :placeholder="profile.email ?? 'Email'"
+            placeholder="Email"
             :error="errors?.email ?? ''"
             inputClass=""
             v-model:input-value="email"
@@ -136,7 +136,7 @@ onMounted(async () => {
             type="text"
             label="Phone"
             :disabled="!isEditable"
-            :placeholder="profile.phone ?? 'Phone'"
+            placeholder="Phone"
             inputClass=""
             v-model:input-value="phone"
           />
@@ -194,13 +194,14 @@ onMounted(async () => {
             id="street"
             label="Street/Subd/Bldg/Lot Details"
             :disabled="!isEditable"
-            v-model="street"
+            v-model:input-value="street"
           />
         </div>
       </form>
 
-
     </div>
+
+    <Toast :show="toast.show" :type="toast.type" :text="toast.msg" />
 
   </section>
 </template>
