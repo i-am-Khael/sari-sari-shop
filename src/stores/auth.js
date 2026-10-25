@@ -16,7 +16,7 @@ export const useAuthStore = defineStore('useAuthStore', {
       type: '',
       msg: ''
     },
-    errors: {},
+    errors: {}
   }),
 
   actions: {
@@ -31,7 +31,7 @@ export const useAuthStore = defineStore('useAuthStore', {
 
       const result = await response.json();
 
-      if (!response.ok || result.status !== 200) return false;
+      if (!response.ok) return false;
 
       this.isAuth = result.data.authenticated;
 
@@ -57,7 +57,6 @@ export const useAuthStore = defineStore('useAuthStore', {
         this.toast.type = 'success';
         this.toast.msg = result.data.msg;
         this.timeout();
-        this.profile = result.data.profile;
         return result;
       }
 
@@ -86,7 +85,6 @@ export const useAuthStore = defineStore('useAuthStore', {
         return result;
       }
 
-      this.profile = result.data.profile;
       return result;
 
     },

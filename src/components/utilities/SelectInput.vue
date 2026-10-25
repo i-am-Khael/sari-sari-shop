@@ -63,6 +63,7 @@ const updateValue = (event) => emit('update:inputValue', event.target.value);
 		  :id="props.id"
 			:required="props.required"
 			:disabled="props.disabled"
+			:value="props.inputValue"
 			:class="[props.selectClass, { 'error-input': props.error }]"
 			@input="updateValue"
 		>

@@ -1,8 +1,7 @@
 <script setup>
-import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/stores/auth';
 import AuthForm from '@/components/utilities/AuthForm.vue';
 
 const auth = useAuthStore();
@@ -12,13 +11,15 @@ const router = useRouter();
 const { errors } = storeToRefs(auth);
 
 const register = async (data) => {
+
   const result = await auth.register(data);
+
   if (result.status === 201) {
-    localStorage.setItem('profile', JSON.stringify(result.data.profile));
-    router.replace(
-      typeof route.query.redirect === 'string' ? route.query.redirect : { name: 'profile' }
-    );
+    localStorage.setItem('id', JSON.stringify(result.data));
+    const redirect = route.query.redirect;
+    router.replace(typeof redirect === 'string' ? redirect : { name: 'profile' });
   }
+
 }
 </script>
 

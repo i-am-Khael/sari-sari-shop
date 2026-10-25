@@ -9,17 +9,18 @@ import TextInput from '@/components/utilities/TextInput.vue';
 import SelectInput from '@/components/utilities/SelectInput.vue';
 import TextArea from '@/components/utilities/TextArea.vue';
 import Toast from '@/components/utilities/Toast.vue';
+import LoadingBar from '@/components/utilities/LoadingBar.vue';
 
-const store = useProfileStore();
+const user = useProfileStore();
 const address = useAddressStore();
-const { profile, toast, errors } = storeToRefs(store);
+const { profile, toast, errors } = storeToRefs(user);
 const { loading, regions, provinces, municipalities, brgys } = storeToRefs(address);
 
-const prof = JSON.parse(localStorage.getItem('profile'));
-
+const isLoading = ref(true);
 const isEditable = ref(false);
+const id = ref('');
 const username = ref('');
-const firstname = ref();
+const firstname = ref('');
 const lastname = ref('');
 const email = ref('');
 const phone = ref('');
@@ -30,10 +31,9 @@ const brgy = ref('');
 const street = ref('');
 
 const save = async () => {
-  isEditable.value = false;
 
   const data = {
-    'id': prof.id ?? 0,
+    'id': id.value,
     'firstName': firstname.value,
     'lastName': lastname.value,
     'email': email.value,
@@ -45,26 +45,46 @@ const save = async () => {
     'street': street.value
   }
 
-  await store.saveProfile(data);
+  const result = await user.saveProfile(data);
+
+  if (result.status === 200) isEditable.value = false;
 
 }
 
 onMounted(async () => {
+  isLoading.value = true;
 
-  if (prof || profile) {
-    username.value = prof.username;
-    firstname.value = prof.firstName;
-    lastname.value = prof.lastName;
-    email.value = prof.email;
-    region.value = prof.region;
-    province.value = prof.province;
-    municipality.value = prof.municipalitypality;
-    brgy.value = prof.brgy;
-    street.value = prof.street;
+  const uid = JSON.parse(localStorage.getItem('id'));
+
+  const prof = await user.getProfile(uid.id ?? 0);
+  const data = prof.data;
+
+  if (data) {
+    id.value = data.id;
+    username.value = data.username;
+    firstname.value = data.firstName;
+    lastname.value = data.lastName;
+    email.value = data.email;
+    phone.value = data.phone;
+
+    await address.getRegions();
+    region.value = data.region;
+
+    await address.getProvinces(data.region);
+    province.value = data.province;
+
+    await address.getMunicipalities(data.province);
+    municipality.value = data.municipality;
+
+    await address.getBrgys(data.municipality);
+    brgy.value = data.brgy;
+
+    street.value = data.street;
   }
 
-  await address.getRegions();
+  isLoading.value = false;
 });
+
 </script>
 
 <template>
@@ -76,8 +96,8 @@ onMounted(async () => {
             <FontAwesomeIcon icon="fa-solid fa-user-tie"/>
           </div>
           <div class="profile-name">
-            <span v-if="prof.firstName" >{{`${prof.firstName} ${prof.lastName}`}}</span>
-            <span>@{{ prof.username }}</span>
+            <span>{{ profile.firstName }} {{ profile.lastName }}</span>
+            <span>@{{ profile.username }}</span>
           </div>
         </div>
 
@@ -99,7 +119,9 @@ onMounted(async () => {
         </div>
       </div>
 
-      <form @submit.prevent="">
+      <LoadingBar v-if="isLoading" />
+
+      <form v-else @submit.prevent="">
         <div class="input-container">
           <TextInput
             id="firstname"
@@ -107,7 +129,6 @@ onMounted(async () => {
             label="Firstname"
             :disabled="!isEditable"
             placeholder="Firstname"
-            inputClass=""
             v-model:input-value="firstname"
           />
           <TextInput
@@ -116,7 +137,6 @@ onMounted(async () => {
             label="Lastname"
             :disabled="!isEditable"
             placeholder="Lastname"
-            inputClass=""
             v-model:input-value="lastname"
           />
         </div>
@@ -128,7 +148,6 @@ onMounted(async () => {
             :disabled="!isEditable"
             placeholder="Email"
             :error="errors?.email ?? ''"
-            inputClass=""
             v-model:input-value="email"
           />
           <TextInput
@@ -137,7 +156,6 @@ onMounted(async () => {
             label="Phone"
             :disabled="!isEditable"
             placeholder="Phone"
-            inputClass=""
             v-model:input-value="phone"
           />
         </div>
@@ -153,7 +171,7 @@ onMounted(async () => {
               :disabled="!isEditable"
               :isLoading="loading.regions"
               v-model:input-value="region"
-              @update:inputValue="address.getProvinces(region)"
+              @update:inputValue="address.getProvinces(region), province = ''"
             />
             <SelectInput
               id="province"
@@ -164,7 +182,7 @@ onMounted(async () => {
               :disabled="!isEditable"
               :isLoading="loading.provinces"
               v-model:input-value="province"
-              @update:inputValue="address.getMunicipalities(province)"
+              @update:inputValue="address.getMunicipalities(province), municipality = ''"
             />
           </div>
           <div class="input-container">
@@ -177,7 +195,7 @@ onMounted(async () => {
               :disabled="!isEditable"
               :isLoading="loading.municipalities"
               v-model:input-value="municipality"
-              @update:inputValue="address.getBrgys(municipality)"
+              @update:inputValue="address.getBrgys(municipality), brgy = ''"
             />
             <SelectInput
               id="brgy"
@@ -193,6 +211,7 @@ onMounted(async () => {
           <TextArea
             id="street"
             label="Street/Subd/Bldg/Lot Details"
+            :text="street ?? ''"
             :disabled="!isEditable"
             v-model:input-value="street"
           />

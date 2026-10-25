@@ -32,7 +32,7 @@ export const useProfileStore = defineStore('useProfileStore', {
       const result = await response.json();
 
       if (result.status === 200) {
-        this.profile = result.data.profile;
+        this.profile = result.data;
         return result;
       }
 
@@ -55,19 +55,17 @@ export const useProfileStore = defineStore('useProfileStore', {
       if (response.ok) {
 
         this.showToast('success', result.data.msg);
-        this.profile = result.data.profile;
 
       } else {
 
-        if (result.errors.msg) {
-          this.showToast('error', result.errors.msg);
-        }
+        if (result.errors.msg) this.showToast('error', result.errors.msg);
 
         this.errors = result.errors ?? {};
 
       }
 
       this.hideToastAndErrors();
+
       return result;
 
     },
