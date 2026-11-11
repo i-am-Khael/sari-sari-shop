@@ -39,30 +39,26 @@ const handleAddToCart = (product) => {
     class="p-5 group rounded border-slate-300 bg-slate-200 transition-all duration-200 hover:-translate-y-1.5 hover:bg-slate-300 hover:shadow-lg"
   >
 
-    <RouterLink :to="`/product/${prod.id}`">
+    <div class="w-full h-56">
+      <img
+        :src="`${path}products/${prod.file}`"
+        :alt="prod.product"
+        class="w-full h-full"
+      >
+    </div>
 
-      <div class="w-full h-56">
-        <img
-          :src="`${path}products/${prod.filename}`"
-          :alt="prod.product"
-          class="w-full h-full"
-        >
+    <div class="mt-2 flex flex-col justify-center">
+      <p class="font-semibold text-slate-900">{{ prod.product }}</p>
+      <!-- <p class="text-sm text-slate-600">{{ prod.description }}</p> -->
+    </div>
+
+    <div class="w-full mt-2 pt-2 inline-flex items-center justify-between border-t border-slate-400">
+      <div class="inline-flex items-center justify-center gap-0.5">
+        <FontAwesomeIcon icon="fa-solid fa-tag" class="text-slate-400"/>
+        <p class="text-sm text-slate-900">${{ formatMoney(prod.price) }}</p>
       </div>
-
-      <div class="mt-2 flex flex-col justify-center">
-        <p class="font-semibold text-slate-900">{{ prod.product }}</p>
-        <!-- <p class="text-sm text-slate-600">{{ prod.description }}</p> -->
-      </div>
-
-      <div class="w-full mt-2 pt-2 inline-flex items-center justify-between border-t border-slate-400">
-        <div class="inline-flex items-center justify-center gap-0.5">
-          <FontAwesomeIcon icon="fa-solid fa-tag" class="text-slate-400"/>
-          <p class="text-sm text-slate-900">${{ formatMoney(prod.price) }}</p>
-        </div>
-        <p class="text-xs text-blue-600">{{ prod.stock }} in stock</p>
-      </div>
-
-    </RouterLink>
+      <p class="text-xs text-blue-600">{{ prod.stock }} in stock</p>
+    </div>
 
     <div class="w-full mt-4 inline-flex items-center justify-between">
       <div class="inline-flex items-center justify-center gap-1 rounded bg-slate-50">

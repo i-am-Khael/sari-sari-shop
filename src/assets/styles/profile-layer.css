@@ -25,7 +25,7 @@
   }
 
   .edit-profile-btn, .save-profile-btn {
-    @apply px-6 py-3 font-semibold text-slate-50 rounded outline-2 outline-blue-200 bg-linear-to-b from-purple-400 to-purple-700 cursor-pointer;
+    @apply px-6 py-3 font-semibold text-slate-50 rounded outline-2 outline-blue-200 bg-linear-to-b from-purple-400 to-purple-700 cursor-pointer disabled:cursor-not-allowed;
   }
 
 }

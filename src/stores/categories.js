@@ -7,8 +7,7 @@ export const useCategoriesStore = defineStore('useCategoriesStore', {
     apiKey: import.meta.env.VITE_API_KEY,
     storage: import.meta.env.VITE_API_STORAGE,
     headers: {
-      'Content-Type': 'application/json',
-      'X-API-KEY': import.meta.env.VITE_API_KEY
+      'Content-Type': 'application/json'
     },
     categories: [],
   }),
@@ -17,7 +16,7 @@ export const useCategoriesStore = defineStore('useCategoriesStore', {
 
     async popularCategories() {
 
-      const response = await fetch(`${this.apiURI}/categories/all`, {
+      const response = await fetch(`${this.apiURI}/categories`, {
         method: 'GET',
         headers: this.headers
       });

@@ -7,8 +7,7 @@ export const useProductsStore = defineStore('useProductsStore', {
     apiKey: import.meta.env.VITE_API_KEY,
     storage: import.meta.env.VITE_API_STORAGE,
     headers: {
-      'Content-Type': 'application/json',
-      'X-API-KEY': import.meta.env.VITE_API_KEY
+      'Content-Type': 'application/json'
     },
     products: [],
     featured: [],
@@ -18,7 +17,7 @@ export const useProductsStore = defineStore('useProductsStore', {
 
     async getAll() {
 
-      const response = await fetch(`${this.apiURI}/products/all`, {
+      const response = await fetch(`${this.apiURI}/products`, {
         method: 'GET',
         headers: this.headers
       });

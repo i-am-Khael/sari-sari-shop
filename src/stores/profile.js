@@ -7,7 +7,8 @@ export const useProfileStore = defineStore('useProfileStore', {
     apiKey: import.meta.env.VITE_API_KEY,
     headers: {
       'Content-Type': 'application/json',
-      'X-API-KEY': import.meta.env.VITE_API_KEY
+      'Authorization': '',
+      'X-CSRF-Token': ''
     },
     toast: {
       show: false,
@@ -21,6 +22,9 @@ export const useProfileStore = defineStore('useProfileStore', {
   actions: {
 
     async getProfile(id) {
+
+      this.headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
+      this.headers["X-CSRF-Token"] = sessionStorage.getItem('csrf');
 
       const response = await fetch(`${this.apiURI}/user/profile`, {
         method: 'POST',
@@ -42,6 +46,9 @@ export const useProfileStore = defineStore('useProfileStore', {
 
 
     async saveProfile(data) {
+
+      this.headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
+      this.headers["X-CSRF-Token"] = sessionStorage.getItem('csrf');
 
       const response = await fetch(`${this.apiURI}/user/profile/save`, {
         method: 'PATCH',

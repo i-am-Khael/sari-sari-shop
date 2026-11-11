@@ -6,6 +6,6 @@ import FeaturedProducts from '@/components/products/FeaturedProducts.vue';
 
 <template>
   <HeroSection/>
-  <FeaturedProducts/>
+  <!-- <FeaturedProducts/> -->
   <PopularCategories/>
 </template>

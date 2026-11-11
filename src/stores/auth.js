@@ -5,10 +5,6 @@ export const useAuthStore = defineStore('useAuthStore', {
   state: () => ({
     apiURI: import.meta.env.VITE_API_URI,
     apiKey: import.meta.env.VITE_API_KEY,
-    headers: {
-      'Content-Type': 'application/json',
-      'X-API-KEY': import.meta.env.VITE_API_KEY
-    },
     isLoading: false,
     isAuth: false,
     toast: {
@@ -16,7 +12,7 @@ export const useAuthStore = defineStore('useAuthStore', {
       type: '',
       msg: ''
     },
-    errors: {}
+    errors: {},
   }),
 
   actions: {
@@ -25,7 +21,9 @@ export const useAuthStore = defineStore('useAuthStore', {
 
       const response = await fetch(`${this.apiURI}/auth/check`, {
         method: 'POST',
-        headers: this.headers,
+        headers: {
+          'Content-Type': 'application/json'
+        },
         credentials: 'include'
       });
 
@@ -39,31 +37,54 @@ export const useAuthStore = defineStore('useAuthStore', {
 
     },
 
-    async register(data) {
 
-      this.isLoading = true;
+    async loadCSRF() {
+
+      sessionStorage.removeItem('csrf');
+
+      const response = await fetch(`${this.apiURI}/auth/csrf`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+
+      if (!response.ok) return;
+
+      const result = await response.json();
+      const csrf = result.data.csrf;
+
+      sessionStorage.setItem('csrf', csrf);
+
+    },
+
+
+    async register(data) {
 
       const response = await fetch(`${this.apiURI}/auth/register`, {
         method: 'POST',
-        headers: this.headers,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': sessionStorage.getItem('csrf')
+        },
         credentials: 'include',
         body: JSON.stringify(data)
       });
 
       const result = await response.json();
 
-      if (result.status === 201) {
-        this.toast.show = true;
-        this.toast.type = 'success';
-        this.toast.msg = result.data.msg;
+      if (!response.ok) {
+        this.errors = result?.errors;
         this.timeout();
         return result;
       }
 
-      this.isLoading = false;
+      sessionStorage.setItem('uid', result.data.id);
+      sessionStorage.setItem('csrf', result.data.csrf);
+      sessionStorage.setItem('bearer', result.data.bearer);
 
-      this.errors = result.errors;
-      this.timeout();
+      return result;
 
     },
 
@@ -72,18 +93,25 @@ export const useAuthStore = defineStore('useAuthStore', {
 
       const response = await fetch(`${this.apiURI}/auth/login`, {
         method: 'POST',
-        headers: this.headers,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': sessionStorage.getItem('csrf')
+        },
         credentials: 'include',
         body: JSON.stringify(data)
       });
 
       const result = await response.json();
 
-      if (result.status !== 200) {
+      if (!response.ok) {
         this.errors = result.errors;
         this.timeout();
         return result;
       }
+
+      sessionStorage.setItem('uid', result.data.id);
+      sessionStorage.setItem('csrf', result.data.csrf);
+      sessionStorage.setItem('bearer', result.data.bearer);
 
       return result;
 
@@ -94,17 +122,24 @@ export const useAuthStore = defineStore('useAuthStore', {
 
       const response = await fetch(`${this.apiURI}/auth/logout`, {
         method: 'POST',
-        headers: this.headers,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': sessionStorage.getItem('csrf'),
+          'Authorization': `Bearer ${sessionStorage.getItem('bearer')}`
+        },
         credentials: 'include'
       });
 
       const result = await response.json();
 
       if (response.ok) {
-        localStorage.clear();
+        sessionStorage.clear();
         this.isAuth = result.data.authenticated;
+        await this.loadCSRF();
         return result;
       }
+
+      return result;
 
     },
 

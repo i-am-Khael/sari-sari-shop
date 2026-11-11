@@ -17,10 +17,12 @@ const emit = defineEmits(['success', 'errors']);
 const uri = import.meta.env.VITE_API_URI;
 const headers = {
   'Content-Type': 'application/json',
-  'X-API-KEY': import.meta.env.VITE_API_KEY
+  'Authorization': '',
+  'X-CSRF-Token': ''
 }
 const container = ref(null);
 const errors = {};
+const id = sessionStorage.getItem('uid');
 
 onMounted(() => {
 
@@ -35,7 +37,7 @@ onMounted(() => {
     async createOrder() {
 
       const orders = {
-        user_id: 1,
+        user_id: id,
         items: props.items.map((item) => ({
           id: item.id,
           price: item.price,
@@ -43,7 +45,10 @@ onMounted(() => {
         }))
       }
 
-      const response = await fetch(`${uri}/checkout/create-order`, {
+      this.headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
+      this.headers['X-CSRF-Token'] = sessionStorage.getItem('csrf');
+
+      const response = await fetch(`${uri}/user/checkout/create-order`, {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(orders)
@@ -64,7 +69,10 @@ onMounted(() => {
 
       try {
 
-        const response = await fetch(`${uri}/checkout/take-order`, {
+        this.headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
+        this.headers['X-CSRF-Token'] = sessionStorage.getItem('csrf');
+
+        const response = await fetch(`${uri}/user/checkout/take-order`, {
           method: 'POST',
           headers: headers,
           body: JSON.stringify({

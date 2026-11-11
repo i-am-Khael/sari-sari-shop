@@ -15,7 +15,7 @@ const register = async (data) => {
   const result = await auth.register(data);
 
   if (result.status === 201) {
-    localStorage.setItem('id', JSON.stringify(result.data));
+    localStorage.setItem('id', JSON.stringify(result.data.id));
     const redirect = route.query.redirect;
     router.replace(typeof redirect === 'string' ? redirect : { name: 'profile' });
   }

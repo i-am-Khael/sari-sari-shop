@@ -17,7 +17,7 @@
   }
 
   header {
-    @apply w-dvw sticky top-0 z-50 bg-linear-to-b from-blue-700 to-blue-900;
+    @apply w-dvw sticky top-0 z-50 bg-linear-to-b from-blue-700 to-blue-900 print:hidden;
   }
 
   nav {

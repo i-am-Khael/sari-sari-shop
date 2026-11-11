@@ -47,16 +47,18 @@ const save = async () => {
 
   const result = await user.saveProfile(data);
 
-  if (result.status === 200) isEditable.value = false;
+  if (result.status === 200) {
+    await user.getProfile(id.value);
+    isEditable.value = false;
+  }
 
 }
 
 onMounted(async () => {
   isLoading.value = true;
 
-  const uid = JSON.parse(localStorage.getItem('id'));
-
-  const prof = await user.getProfile(uid.id ?? 0);
+  const uid = sessionStorage.getItem('uid');
+  const prof = await user.getProfile(uid ?? 0);
   const data = prof.data;
 
   if (data) {
@@ -104,6 +106,7 @@ onMounted(async () => {
         <div class="profile-btn-container">
           <Button
             v-if="!isEditable"
+            :disabled="isLoading"
             type="button"
             label="Edit Profile"
             class="edit-profile-btn"

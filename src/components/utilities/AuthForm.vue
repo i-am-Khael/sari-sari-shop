@@ -57,7 +57,7 @@ const submitForm = () => {
         label="Username"
         placeholder="Username"
         :required="true"
-        :error="props.errors?.msg || props.errors?.username"
+        :error="props.errors?.error || props.errors?.username"
         v-model:input-value="username"
       />
       <TextInput
@@ -66,7 +66,7 @@ const submitForm = () => {
         label="password"
         placeholder="Password"
         :required="true"
-        :error="props.errors?.msg || props.errors?.password"
+        :error="props.errors?.error || props.errors?.password"
         v-model:input-value="password"
       />
       <Button
