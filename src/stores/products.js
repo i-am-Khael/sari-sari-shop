@@ -3,9 +3,8 @@ import { defineStore } from "pinia";
 export const useProductsStore = defineStore('useProductsStore', {
 
   state: () => ({
-    apiURI: import.meta.env.VITE_API_URI,
-    apiKey: import.meta.env.VITE_API_KEY,
-    storage: import.meta.env.VITE_API_STORAGE,
+    apiURI: 'https://sari-sari-shop.infinityfree.io/api/shop',
+    storage: 'https://sari-sari-shop.infinityfree.io/storage/',
     headers: {
       'Content-Type': 'application/json'
     },

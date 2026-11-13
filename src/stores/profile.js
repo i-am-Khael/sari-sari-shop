@@ -3,8 +3,8 @@ import { defineStore } from "pinia";
 export const useProfileStore = defineStore('useProfileStore', {
 
   state: () => ({
-    apiURI: import.meta.env.VITE_API_URI,
-    apiKey: import.meta.env.VITE_API_KEY,
+    apiURI: 'https://sari-sari-shop.infinityfree.io/api/shop',
+    apiKey: 'https://sari-sari-shop.infinityfree.io/storage',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': '',
