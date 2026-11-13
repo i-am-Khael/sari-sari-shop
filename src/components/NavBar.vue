@@ -12,7 +12,7 @@ const { totalItems } = utilities();
 
 const logout = async () => {
   const result = await auth.logout();
-  if (result.status === 200) router.push({ name: 'index' });
+  if (result.status === 200) router.push({ name: 'products' });
 }
 
 </script>
@@ -43,9 +43,9 @@ const logout = async () => {
             <RouterLink to="/featured">Featured</RouterLink>
           </li>
 
-          <li>
+          <!-- <li>
             <RouterLink to="/categories">Categories</RouterLink>
-          </li>
+          </li> -->
         </ul>
 
         <ul v-if="!isAuth" class="auth-links">

@@ -9,11 +9,11 @@
   }
 
   section {
-    @apply w-full min-h-dvh;
+    @apply w-full min-h-dvh py-6;
   }
 
   footer {
-    @apply w-dvw text-blue-100 bg-linear-to-b from-blue-900 to-blue-700;
+    @apply w-dvw text-blue-100 bg-linear-to-b from-blue-900 to-blue-700 print:hidden;
   }
 
   header {

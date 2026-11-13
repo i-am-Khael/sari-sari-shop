@@ -36,13 +36,21 @@ const handlePaymentError = (error) => {
 </script>
 
 <template>
-  <section class="min-h-screen px-5 sm:px-10 py-10 bg-slate-50">
+  <section class="flex flex-col">
     <div class="w-full">
 
-      <div class="mb-8">
-        <p class="uppercase font-medium tracking-wide text-sm text-blue-600">Order Summary</p>
-        <h1 class="mt-2 font-bold tracking-tight text-3xl sm:text-4xl text-slate-900">Your Checkout</h1>
-        <p class="mt-2 text-slate-600">Review your items before completing your purchase.</p>
+      <div class="w-full mb-6 p-6 rounded bg-linear-to-r from-blue-700 to-blue-500 flex items-center justify-between">
+        <div class="flex flex-col gap-1">
+          <p class="uppercase font-medium tracking-wide text-sm text-blue-100">Order Summary</p>
+          <h1 class="font-bold tracking-tight text-3xl sm:text-4xl text-blue-50">Your Checkout</h1>
+          <p class=" text-blue-50">Review your items before completing your purchase.</p>
+        </div>
+
+        <div class="p-6 rounded bg-blue-50">
+          <p class="font-bold text-slate-900">Use this paypal account for demo.</p>
+          <p> <span class="font-bold text-slate-900">Email:</span> demo-sari-sari-shop@personal.example.com</p>
+          <p> <span class="font-bold text-slate-900">Password:</span> demo-sari-sari-shop</p>
+        </div>
       </div>
 
       <div

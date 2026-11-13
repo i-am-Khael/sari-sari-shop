@@ -24,7 +24,7 @@ const register = async (data) => {
 </script>
 
 <template>
-  <section>
+  <section class="register-section">
     <AuthForm @submit="register" btnLabel="Register" :errors="errors"/>
   </section>
 </template>

@@ -24,6 +24,15 @@ const login = async (data) => {
 
 <template>
   <section class="login-section">
+
+    <div class="mb-4 p-6 rounded bg-slate-400 text-slate-950">
+      <p class="mb-2">You can use this account, or register a new one.</p>
+      <ul>
+        <li>Username: demo</li>
+        <li>Password: password</li>
+      </ul>
+    </div>
+
     <AuthForm @submit="login" btnLabel="Login" :errors="errors"/>
   </section>
 </template>

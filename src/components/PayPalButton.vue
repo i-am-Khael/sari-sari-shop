@@ -45,8 +45,8 @@ onMounted(() => {
         }))
       }
 
-      this.headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
-      this.headers['X-CSRF-Token'] = sessionStorage.getItem('csrf');
+      headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
+      headers['X-CSRF-Token'] = sessionStorage.getItem('csrf');
 
       const response = await fetch(`${uri}/user/checkout/create-order`, {
         method: 'POST',
@@ -69,8 +69,8 @@ onMounted(() => {
 
       try {
 
-        this.headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
-        this.headers['X-CSRF-Token'] = sessionStorage.getItem('csrf');
+        headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
+        headers['X-CSRF-Token'] = sessionStorage.getItem('csrf');
 
         const response = await fetch(`${uri}/user/checkout/take-order`, {
           method: 'POST',

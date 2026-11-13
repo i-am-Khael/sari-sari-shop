@@ -36,35 +36,34 @@ const handleAddToCart = (product) => {
   <div
     v-for="prod in props.products"
     :key="prod.id"
-    class="p-5 group rounded border-slate-300 bg-slate-200 transition-all duration-200 hover:-translate-y-1.5 hover:bg-slate-300 hover:shadow-lg"
+    class="product-list-container"
   >
 
-    <div class="w-full h-56">
+    <div class="product-img-container">
       <img
         :src="`${path}products/${prod.file}`"
         :alt="prod.product"
-        class="w-full h-full"
       >
     </div>
 
-    <div class="mt-2 flex flex-col justify-center">
-      <p class="font-semibold text-slate-900">{{ prod.product }}</p>
+    <div class="product-text-container">
+      <p class="product-title">{{ prod.product }}</p>
       <!-- <p class="text-sm text-slate-600">{{ prod.description }}</p> -->
     </div>
 
-    <div class="w-full mt-2 pt-2 inline-flex items-center justify-between border-t border-slate-400">
-      <div class="inline-flex items-center justify-center gap-0.5">
-        <FontAwesomeIcon icon="fa-solid fa-tag" class="text-slate-400"/>
-        <p class="text-sm text-slate-900">${{ formatMoney(prod.price) }}</p>
+    <div class="product-price-stock-container">
+      <div class="price-icon-container">
+        <FontAwesomeIcon icon="fa-solid fa-tag" class="icon"/>
+        <p class="price-text">${{ formatMoney(prod.price) }}</p>
       </div>
-      <p class="text-xs text-blue-600">{{ prod.stock }} in stock</p>
+      <p class="stock-text">{{ prod.stock }} in stock</p>
     </div>
 
-    <div class="w-full mt-4 inline-flex items-center justify-between">
-      <div class="inline-flex items-center justify-center gap-1 rounded bg-slate-50">
+    <div class="product-btn-container">
+      <div class="inc-dec-container">
         <button
           type="button"
-          class="p-1 bg-slate-300 hover:bg-slate-400 cursor-pointer disabled:cursor-not-allowed"
+          class="decrease-btn"
           :disabled="prod.stock === 0"
           @click="decrease(prod.id)"
         >
@@ -73,14 +72,14 @@ const handleAddToCart = (product) => {
         <input
           type="text"
           min="1"
-          class="w-11 px-2 text-right outline-none border-none"
+          class="stock-input"
           :max="prod.stock"
           :value="getQuantity(prod.id)"
           @input="setQuantity(prod.id, $event.target.value, prod.stock)"
         />
         <button
           type="button"
-          class="p-1 bg-slate-300 hover:bg-slate-400 cursor-pointer disabled:cursor-not-allowed"
+          class="increase-btn"
           :disabled="getQuantity(prod.id) >= prod.stock"
           @click="increase(prod.id, prod.stock)"
         >
@@ -89,7 +88,7 @@ const handleAddToCart = (product) => {
       </div>
       <button
         type="button"
-        class="px-4 py-1 text-slate-50 rounded bg-blue-900 hover:bg-blue-700 cursor-pointer disabled:cursor-not-allowed"
+        class="add-to-cart"
         :disabled="prod.stock <= 0"
         @click="handleAddToCart(prod)"
       >

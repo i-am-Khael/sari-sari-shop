@@ -6,8 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'index',
-      component: () => import('../views/IndexView.vue'),
+      redirect: { name: 'products' }
     },
     {
       path: '/login',

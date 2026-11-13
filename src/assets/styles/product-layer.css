@@ -1,0 +1,109 @@
+@layer components {
+
+  .prod-container, .featured-container {
+    @apply flex flex-col;
+  }
+
+  .product-header-container, .featured-header-container {
+    @apply w-full p-6 rounded bg-linear-to-r from-blue-700 to-blue-500;
+  }
+
+  .header-text-container {
+    @apply flex flex-col gap-1;
+  }
+
+  .text-top {
+    @apply uppercase tracking-wider font-medium text-sm text-blue-100;
+  }
+
+  .text-main {
+    @apply font-bold text-3xl sm:text-4xl text-blue-50;
+  }
+
+  .filter-container {
+    @apply w-[50%] mt-5 inline-flex items-center gap-4;
+  }
+
+  .search-input {
+    @apply w-full px-4 py-2 rounded border-none outline-none text-blue-950 bg-blue-50;
+  }
+
+  .search-filter {
+    @apply px-4 py-2 rounded text-blue-950 bg-blue-50 cursor-pointer;
+  }
+
+  .product-component-container, .featured-component-container {
+    @apply py-6 grid grid-cols-4 gap-4;
+  }
+
+  .no-product-container {
+    @apply flex flex-1 items-center justify-center text-blue-950;
+  }
+
+
+  .product-list-container {
+    @apply p-5 rounded border-slate-300 bg-slate-200 transition-all duration-200 hover:-translate-y-1.5 hover:bg-slate-300 hover:shadow-lg;
+  }
+
+  .product-img-container {
+    @apply w-full h-56;
+
+    img {
+      @apply w-full h-56;
+    }
+  }
+
+  .product-text-container {
+    @apply mt-2 flex flex-col justify-center;
+
+    .product-title {
+      @apply font-semibold text-slate-900;
+    }
+  }
+
+  .product-price-stock-container {
+    @apply w-full mt-2 pt-2 inline-flex items-center justify-between border-t border-slate-400;
+  }
+
+  .price-icon-container {
+    @apply inline-flex items-center justify-center gap-0.5;
+
+    .icon {
+      @apply text-slate-400;
+    }
+  }
+
+  .price-text {
+    @apply text-sm text-slate-900;
+  }
+
+  .stock-text {
+    @apply text-xs text-blue-600;
+  }
+
+
+  .product-btn-container {
+    @apply w-full mt-4 inline-flex items-center justify-between;
+  }
+
+  .inc-dec-container {
+    @apply inline-flex items-center justify-center gap-1 rounded bg-slate-50;
+
+    .decrease-btn {
+      @apply p-1 bg-slate-300 hover:bg-slate-400 cursor-pointer disabled:cursor-not-allowed;
+    }
+
+    .stock-input {
+      @apply w-11 px-2 text-right outline-none border-none;
+    }
+
+    .increase-btn {
+      @apply p-1 bg-slate-300 hover:bg-slate-400 cursor-pointer disabled:cursor-not-allowed;
+    }
+  }
+
+  .add-to-cart {
+    @apply px-4 py-1 text-slate-50 rounded bg-blue-900 hover:bg-blue-700 cursor-pointer disabled:cursor-not-allowed;
+  }
+
+}
