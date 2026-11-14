@@ -22,7 +22,6 @@ export const useAuthStore = defineStore('useAuthStore', {
       const response = await fetch(`${this.apiURI}/auth/check`, {
         method: 'POST',
         headers: {
-          'Access-Control-Allow-Origin': 'https://sari-sari-shop.michaelcasals.dev/',
           'Content-Type': 'application/json'
         },
         credentials: 'include'

@@ -4,7 +4,7 @@ export const useProfileStore = defineStore('useProfileStore', {
 
   state: () => ({
     apiURI: 'https://sari-sari-shop.infinityfree.io/api/shop',
-    apiKey: 'https://sari-sari-shop.infinityfree.io/storage',
+    storage: 'https://sari-sari-shop.infinityfree.io/storage',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': '',
