@@ -4,7 +4,7 @@ export const useAuthStore = defineStore('useAuthStore', {
 
   state: () => ({
     apiURI: 'https://sari-sari-shop.infinityfree.io/api/shop',
-    apiKey: 'https://sari-sari-shop.infinityfree.io/storage/',
+    storage: 'https://sari-sari-shop.infinityfree.io/storage/',
     isLoading: false,
     isAuth: false,
     toast: {
@@ -21,9 +21,6 @@ export const useAuthStore = defineStore('useAuthStore', {
 
       const response = await fetch(`${this.apiURI}/auth/check`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
         credentials: 'include'
       });
 
@@ -44,9 +41,6 @@ export const useAuthStore = defineStore('useAuthStore', {
 
       const response = await fetch(`${this.apiURI}/auth/csrf`, {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
         credentials: 'include'
       });
 
