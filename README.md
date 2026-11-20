@@ -1,7 +1,7 @@
 
 # Sari-Sari-Shop
 - a basic e-commerce web app
-- layout is not mobile friendly, will do this later...
+- layout is not mobile friendly yet, will do this later...
 
 ## Modules/Features
 - login / register
@@ -23,3 +23,6 @@
 - TailwindCSS
 - FontAwesomeIcon
 - Paypal SDK
+
+#### Screenshot
+![Sari-Sari-Shop](image.png)
